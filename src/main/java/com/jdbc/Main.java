@@ -3,9 +3,7 @@ package com.jdbc;
 import com.jdbc.config.DatabaseManagerConnector;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Main {
 
