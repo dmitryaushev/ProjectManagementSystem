@@ -29,4 +29,13 @@ public class Company {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return "Company {" +
+                "companyID=" + companyID +
+                ", companyName='" + companyName + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

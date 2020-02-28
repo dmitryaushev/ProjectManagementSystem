@@ -56,4 +56,16 @@ public class Developer {
     public void setSalary(int salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        return "Developer {" +
+                "developerID=" + developerID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", salary=" + salary +
+                '}';
+    }
 }

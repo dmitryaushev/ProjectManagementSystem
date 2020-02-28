@@ -29,4 +29,13 @@ public class Customer {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return "Customer {" +
+                "customerID=" + customerID +
+                ", customerName='" + customerName + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

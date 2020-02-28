@@ -50,4 +50,14 @@ public class Project {
         this.cost = cost;
     }
 
+    @Override
+    public String toString() {
+        return "Project {" +
+                "projectID=" + projectID +
+                ", projectName='" + projectName + '\'' +
+                ", status='" + status + '\'' +
+                ", cost=" + cost +
+                ", date=" + date +
+                '}';
+    }
 }
