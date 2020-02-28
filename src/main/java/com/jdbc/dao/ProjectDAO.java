@@ -16,10 +16,10 @@ public class ProjectDAO extends DataAccessObject<Project> {
     private Connection connection;
 
     private static final String INSERT = "INSERT INTO projects(project_id, project_name, status, cost, date) " +
-                                         "VALUES (?, ?, ?, ?, ?)";
-    private static final String SELECT = "SELECT * FROM projects WHERE project_id = ?";
-    private static final String SELECT_ALL = "SELECT * FROM projects";
-    private static final String DELETE = "DELETE FROM projects WHERE project_id = ?";
+                                         "VALUES (?, ?, ?, ?, ?);";
+    private static final String SELECT = "SELECT * FROM projects WHERE project_id = ?;";
+    private static final String SELECT_ALL = "SELECT * FROM projects;";
+    private static final String DELETE = "DELETE FROM projects WHERE project_id = ?;";
     private static final String GET_SUM_SALARY = "select sum(salary)\n" +
                                                  "from developers d\n" +
                                                  "join developer_project dp ON d.developer_id = dp.developer_id\n" +
@@ -107,7 +107,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
     @Override
     public void remove(int id) {
 
-        try(PreparedStatement statement = connection.prepareStatement(DELETE);) {
+        try(PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
