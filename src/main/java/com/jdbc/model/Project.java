@@ -1,6 +1,6 @@
 package com.jdbc.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Project {
 
@@ -49,4 +49,5 @@ public class Project {
     public void setCost(int cost) {
         this.cost = cost;
     }
+
 }
