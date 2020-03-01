@@ -19,16 +19,9 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
     private static final String SELECT = "SELECT * FROM developers WHERE developer_id = ?";
     private static final String SELECT_ALL = "SELECT * FROM developers;";
     private static final String DELETE = "DELETE FROM developers WHERE developer_id = ?;";
-    private static final String GET_ALL_DEVELOPER_BY_DEPARTMENT = "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
-                                                                  "FROM developers d\n" +
-                                                                  "JOIN developer_skill ds ON d.developer_id = ds.developer_id\n" +
-                                                                  "JOIN skills s ON ds.skill_id = s.skill_id\n" +
-                                                                  "WHERE s.department = ?;";
-    private static final String GET_ALL_DEVELOPER_BY_LEVEL = "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
-                                                             "FROM developers d\n" +
-                                                             "JOIN developer_skill ds ON d.developer_id = ds.developer_id\n" +
-                                                             "JOIN skills s ON ds.skill_id = s.skill_id\n" +
-                                                             "WHERE s.level = ?;";
+
+    private static String getAllDeveloperByDepartment;
+    private static String getAllDeveloperByLevel;
 
     public DeveloperDAO(Connection connection) {
         this.connection = connection;
@@ -120,9 +113,15 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
 
     public List<Developer> getAllDeveloperByDepartment(String department) {
 
+        getAllDeveloperByDepartment =
+                "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
+                "FROM developers d\n" +
+                "JOIN developer_skill ds ON d.developer_id = ds.developer_id\n" +
+                "JOIN skills s ON ds.skill_id = s.skill_id\n" +
+                "WHERE s.department = ?;";
         List<Developer> developersList = new ArrayList<>();
 
-        try(PreparedStatement statement = connection.prepareStatement(GET_ALL_DEVELOPER_BY_DEPARTMENT)) {
+        try(PreparedStatement statement = connection.prepareStatement(getAllDeveloperByDepartment)) {
             statement.setString(1, department);
 
             ResultSet resultSet = statement.executeQuery();
@@ -147,9 +146,15 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
 
     public List<Developer> getAllDeveloperByLevel(String level) {
 
+        getAllDeveloperByLevel =
+                "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
+                "FROM developers d\n" +
+                "JOIN developer_skill ds ON d.developer_id = ds.developer_id\n" +
+                "JOIN skills s ON ds.skill_id = s.skill_id\n" +
+                "WHERE s.level = ?;";
         List<Developer> developersList = new ArrayList<>();
 
-        try(PreparedStatement statement = connection.prepareStatement(GET_ALL_DEVELOPER_BY_LEVEL)) {
+        try(PreparedStatement statement = connection.prepareStatement(getAllDeveloperByLevel)) {
             statement.setString(1, level);
 
             ResultSet resultSet = statement.executeQuery();

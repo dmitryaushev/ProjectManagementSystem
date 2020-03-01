@@ -4,10 +4,7 @@ import com.jdbc.config.DataAccessObject;
 import com.jdbc.model.Developer;
 import com.jdbc.model.Project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +17,10 @@ public class ProjectDAO extends DataAccessObject<Project> {
     private static final String SELECT = "SELECT * FROM projects WHERE project_id = ?;";
     private static final String SELECT_ALL = "SELECT * FROM projects;";
     private static final String DELETE = "DELETE FROM projects WHERE project_id = ?;";
-    private static final String GET_SUM_SALARY = "select sum(salary)\n" +
-                                                 "from developers d\n" +
-                                                 "join developer_project dp ON d.developer_id = dp.developer_id\n" +
-                                                 "join projects p on dp.project_id = p.project_id\n" +
-                                                 "where p.project_name = ?;";
-    private static final String GET_ALL_DEVELOPERS = "select d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
-                                                     "from developers d\n" +
-                                                     "join developer_project dp ON d.developer_id = dp.developer_id\n" +
-                                                     "join projects p on dp.project_id = p.project_id\n" +
-                                                     "where p.project_id = ?;";
+
+    private static String getSumSalaryByProject;
+    private static String getAllDevelopersByProject;
+    private static String getAllProjectsWithDevelopers;
 
     public ProjectDAO(Connection connection) {
         this.connection = connection;
@@ -117,9 +108,15 @@ public class ProjectDAO extends DataAccessObject<Project> {
 
     public int getSumSalary(Project project) {
 
+        getSumSalaryByProject =
+                "SELECT sum(salary)\n" +
+                "FROM developers d\n" +
+                "JOIN developer_project dp ON d.developer_id = dp.developer_id\n" +
+                "JOIN projects p ON dp.project_id = p.project_id\n" +
+                "WHERE p.project_name = ?;";
         int sum = 0;
 
-        try (PreparedStatement statement = connection.prepareStatement(GET_SUM_SALARY)) {
+        try (PreparedStatement statement = connection.prepareStatement(getSumSalaryByProject)) {
             statement.setString(1, project.getProjectName());
             ResultSet resultSet = statement.executeQuery();
 
@@ -134,9 +131,15 @@ public class ProjectDAO extends DataAccessObject<Project> {
 
     public List<Developer> getAllDevelopers (Project project) {
 
+        getAllDevelopersByProject =
+                "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
+                "FROM developers d\n" +
+                "JOIN developer_project dp ON d.developer_id = dp.developer_id\n" +
+                "JOIN projects p ON dp.project_id = p.project_id\n" +
+                "WHERE p.project_id = ?;";
         List<Developer> developersList = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_DEVELOPERS)) {
+        try (PreparedStatement statement = connection.prepareStatement(getAllDevelopersByProject)) {
             statement.setInt(1, project.getProjectID());
 
             ResultSet resultSet = statement.executeQuery();
@@ -159,5 +162,35 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return developersList;
     }
 
+    public List<String> getALLProjectsWithDevelopers() {
+
+        getAllProjectsWithDevelopers =
+                "SELECT p.date, p.project_name, count(d) AS amount\n" +
+                "FROM projects p \n" +
+                "JOIN developer_project dp ON p.project_id = dp.project_id\n" +
+                "JOIN developers d ON dp.developer_id = d.developer_id\n" +
+                "GROUP BY p.date, p.project_name\n" +
+                "ORDER BY amount DESC;";
+        List<String> projectsList = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(getAllProjectsWithDevelopers)) {
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+
+                Date date = resultSet.getDate("date");
+                String name = resultSet.getString("project_name");
+                int amount = resultSet.getInt("amount");
+
+                String s = String.format("%s %s %d", date, name, amount);
+                projectsList.add(s);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return projectsList;
+    }
 
 }
