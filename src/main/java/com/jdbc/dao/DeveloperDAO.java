@@ -23,6 +23,9 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
     private static String getAllDeveloperByDepartment;
     private static String getAllDeveloperByLevel;
 
+    private static String linkDeveloperProject = "INSERT INTO developer_project (developer_id, project_id) " +
+                                                 "VALUES(?, ?)";
+
     public DeveloperDAO(Connection connection) {
         this.connection = connection;
     }
@@ -174,5 +177,17 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
             e.printStackTrace();
         }
         return developersList;
+    }
+
+    public void linkDeveloperProject(int developerID, int projectId) {
+
+        try (PreparedStatement statement = connection.prepareStatement(linkDeveloperProject)) {
+
+            statement.setInt(1, developerID);
+            statement.setInt(2, projectId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

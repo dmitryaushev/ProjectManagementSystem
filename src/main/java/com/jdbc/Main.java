@@ -1,8 +1,10 @@
 package com.jdbc;
 
 import com.jdbc.config.DatabaseManagerConnector;
+import com.jdbc.model.Developer;
 import com.jdbc.service.CompanyService;
 import com.jdbc.service.CustomerService;
+import com.jdbc.service.DeveloperService;
 import com.jdbc.service.ProjectService;
 
 import java.sql.Connection;
@@ -19,6 +21,7 @@ public class Main {
         ProjectService projectService = new ProjectService(connection);
         CompanyService companyService = new CompanyService(connection);
         CustomerService customerService = new CustomerService(connection);
+        DeveloperService developerService = new DeveloperService(connection);
 
     }
 }
