@@ -12,8 +12,8 @@ public class ProjectDAO extends DataAccessObject<Project> {
 
     private Connection connection;
 
-    private static final String INSERT = "INSERT INTO projects(project_id, project_name, status, cost, date) " +
-                                         "VALUES (?, ?, ?, ?, ?);";
+    private static final String INSERT = "INSERT INTO projects(project_name, status, cost, date) " +
+                                         "VALUES (?, ?, ?, ?);";
     private static final String SELECT = "SELECT * FROM projects WHERE project_id = ?;";
     private static final String SELECT_ALL = "SELECT * FROM projects;";
     private static final String DELETE = "DELETE FROM projects WHERE project_id = ?;";
@@ -31,11 +31,10 @@ public class ProjectDAO extends DataAccessObject<Project> {
 
         try (PreparedStatement statement = connection.prepareStatement(INSERT)){
 
-            statement.setInt(1, project.getProjectID());
-            statement.setString(2, project.getProjectName());
-            statement.setString(3, project.getStatus());
-            statement.setInt(4, project.getCost());
-            statement.setDate(5, project.getDate());
+            statement.setString(1, project.getProjectName());
+            statement.setString(2, project.getStatus());
+            statement.setInt(3, project.getCost());
+            statement.setDate(4, project.getDate());
             statement.execute();
         } catch (SQLException e){
             e.printStackTrace();

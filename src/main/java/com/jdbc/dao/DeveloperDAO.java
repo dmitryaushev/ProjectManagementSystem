@@ -14,8 +14,8 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
 
     private Connection connection;
 
-    private static final String INSERT = "INSERT INTO developers(developer_id, first_name, last_name, gender, age, salary) " +
-                                         "VALUES(?, ?, ?, ?, ?, ?);";
+    private static final String INSERT = "INSERT INTO developers(first_name, last_name, gender, age, salary) " +
+                                         "VALUES(?, ?, ?, ?, ?);";
     private static final String SELECT = "SELECT * FROM developers WHERE developer_id = ?";
     private static final String SELECT_ALL = "SELECT * FROM developers;";
     private static final String DELETE = "DELETE FROM developers WHERE developer_id = ?;";
@@ -32,12 +32,11 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
 
         try(PreparedStatement statement = connection.prepareStatement(INSERT)) {
 
-            statement.setInt(1, developer.getDeveloperID());
-            statement.setString(2, developer.getFirstName());
-            statement.setString(3, developer.getLastName());
-            statement.setString(4, developer.getGender());
-            statement.setInt(5, developer.getAge());
-            statement.setInt(6, developer.getSalary());
+            statement.setString(1, developer.getFirstName());
+            statement.setString(2, developer.getLastName());
+            statement.setString(3, developer.getGender());
+            statement.setInt(4, developer.getAge());
+            statement.setInt(5, developer.getSalary());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
