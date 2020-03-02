@@ -2,6 +2,7 @@ package com.jdbc.service;
 
 import com.jdbc.dao.DeveloperDAO;
 import com.jdbc.dao.ProjectDAO;
+import com.jdbc.dao.SkillDAO;
 import com.jdbc.model.Developer;
 
 import java.sql.Connection;
@@ -13,11 +14,13 @@ public class DeveloperService {
 
     private DeveloperDAO developerDAO;
     private ProjectDAO projectDAO;
+    private SkillDAO skillDAO;
     Scanner scanner = new Scanner(System.in);
 
     public DeveloperService(Connection connection) {
         developerDAO = new DeveloperDAO(connection);
         projectDAO = new ProjectDAO(connection);
+        skillDAO = new SkillDAO(connection);
     }
 
     public void createDeveloper () {
@@ -66,6 +69,7 @@ public class DeveloperService {
 
         int developerID;
         int projectID;
+        int skillID;
         String firstName = developer.getFirstName();
         String lastName = developer.getLastName();
         String projectName;
@@ -77,10 +81,26 @@ public class DeveloperService {
                 .collect(Collectors.toList())
                 .get(0);
 
-        System.out.println("Chose project id");
-        projectDAO.getAll().forEach(x -> System.out.printf("%d. %s \n", x.getProjectID(), x.getProjectName()));
-        projectID = scanner.nextInt();
+        while (true) {
+            System.out.println("Chose project id");
+            projectDAO.getAll().forEach(x -> System.out.printf("%d. %s \n", x.getProjectID(), x.getProjectName()));
+            projectID = scanner.nextInt();
 
-        developerDAO.linkDeveloperProject(developerID, projectID);
+            if (projectID == 0)
+                break;
+
+            developerDAO.linkDeveloperProject(developerID, projectID);
+        }
+
+        while (true) {
+            System.out.println("Choose skill id");
+            skillDAO.getAll().forEach(System.out::println);
+            skillID = scanner.nextInt();
+
+            if (skillID == 0)
+                break;
+
+            developerDAO.linkDeveloperSkill(developerID, skillID);
+        }
     }
 }

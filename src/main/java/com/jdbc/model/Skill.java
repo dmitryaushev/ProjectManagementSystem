@@ -29,4 +29,13 @@ public class Skill {
     public void setLevel(String level) {
         this.level = level;
     }
+
+    @Override
+    public String toString() {
+        return "Skill {" +
+                "skillID=" + skillID +
+                ", department='" + department + '\'' +
+                ", level='" + level + '\'' +
+                '}';
+    }
 }

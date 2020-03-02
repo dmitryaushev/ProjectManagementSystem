@@ -1,7 +1,6 @@
 package com.jdbc;
 
 import com.jdbc.config.DatabaseManagerConnector;
-import com.jdbc.model.Developer;
 import com.jdbc.service.CompanyService;
 import com.jdbc.service.CustomerService;
 import com.jdbc.service.DeveloperService;
