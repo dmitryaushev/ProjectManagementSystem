@@ -22,6 +22,11 @@ public class ProjectDAO extends DataAccessObject<Project> {
     private static String getAllDevelopersByProject;
     private static String getAllProjectsWithDevelopers;
 
+    private static String linkCustomerProject = "INSERT INTO customer_project (customer_id, project_id) " +
+                                                "VALUES(?, ?)";
+    private static String linkCompanyProject = "INSERT INTO company_project (company_id, project_id) " +
+                                               "VALUES(?, ?)";;
+
     public ProjectDAO(Connection connection) {
         this.connection = connection;
     }
@@ -190,6 +195,30 @@ public class ProjectDAO extends DataAccessObject<Project> {
         }
 
         return projectsList;
+    }
+
+    public void linkCustomerProject (int customerID, int projectId) {
+
+        try (PreparedStatement statement = connection.prepareStatement(linkCustomerProject)) {
+
+            statement.setInt(1, customerID);
+            statement.setInt(2, projectId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void linkCompanyProject (int companyID, int projectId) {
+
+        try (PreparedStatement statement = connection.prepareStatement(linkCompanyProject)) {
+
+            statement.setInt(1, companyID);
+            statement.setInt(2, projectId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
