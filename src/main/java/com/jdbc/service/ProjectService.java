@@ -24,10 +24,6 @@ public class ProjectService {
         companyDAO = new CompanyDAO(connection);
     }
 
-    public ProjectDAO getProjectDAO() {
-        return projectDAO;
-    }
-
     public void createProject() {
 
         Scanner scanner = new Scanner(System.in);
