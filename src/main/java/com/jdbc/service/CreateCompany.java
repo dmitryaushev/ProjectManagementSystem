@@ -28,6 +28,7 @@ public class CreateCompany implements Command {
         String name = view.read();
         view.write("Enter a company location");
         String location = view.read();
+
         Company company = new Company();
         company.setCompanyName(name);
         company.setLocation(location);

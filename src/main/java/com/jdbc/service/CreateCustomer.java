@@ -27,6 +27,7 @@ public class CreateCustomer implements Command {
         String name = view.read();
         view.write("Enter a customer location");
         String location = view.read();
+
         Customer customer = new Customer();
         customer.setCustomerName(name);
         customer.setLocation(location);
