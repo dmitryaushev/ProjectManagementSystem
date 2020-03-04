@@ -25,6 +25,6 @@ public class GetDeveloper implements Command {
         view.write("Choose developer id");
         developerDAO.getAll().forEach(x -> System.out.println(x.getDeveloperID()));
         int id = Integer.parseInt(view.read());
-        developerDAO.getByID(id);
+        System.out.println(developerDAO.getByID(id).toString());
     }
 }

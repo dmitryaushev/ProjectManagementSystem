@@ -16,14 +16,14 @@ public class DeleteDeveloper implements Command {
 
     @Override
     public String command() {
-        return "Delete Developer";
+        return "Delete developer";
     }
 
     @Override
     public void process() {
 
         view.write("Choose developer id");
-        developerDAO.getAll().forEach(x -> System.out.println(x.getDeveloperID()));
+        developerDAO.getAll().forEach(System.out::println);
         int id = Integer.parseInt(view.read());
         developerDAO.remove(id);
     }

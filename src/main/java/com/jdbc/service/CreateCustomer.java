@@ -17,7 +17,7 @@ public class CreateCustomer implements Command {
 
     @Override
     public String command() {
-        return "Create Customer";
+        return "Create customer";
     }
 
     @Override
