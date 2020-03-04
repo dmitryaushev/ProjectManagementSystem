@@ -22,9 +22,9 @@ public class GetCompany implements Command {
     @Override
     public void process() {
 
-        view.write("Chose company id");
-        companyDAO.getAll().forEach(System.out::println);
+        view.write("Choose company id");
+        companyDAO.getAll().forEach(x -> System.out.println(x.getCompanyID()));
         int id = Integer.parseInt(view.read());
-        companyDAO.getByID(id);
+        System.out.println(companyDAO.getByID(id).toString());
     }
 }

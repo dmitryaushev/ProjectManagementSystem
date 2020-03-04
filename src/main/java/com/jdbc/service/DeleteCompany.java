@@ -22,7 +22,7 @@ public class DeleteCompany implements Command {
     @Override
     public void process() {
 
-        view.write("Chose company id");
+        view.write("Choose company id");
         companyDAO.getAll().forEach(System.out::println);
         int id = Integer.parseInt(view.read());
         companyDAO.remove(id);

@@ -1,7 +1,7 @@
 package com.jdbc.config;
 
 import com.jdbc.dao.CompanyDAO;
-import com.jdbc.model.Company;
+import com.jdbc.dao.CustomerDAO;
 import com.jdbc.service.*;
 
 import java.sql.Connection;
@@ -16,17 +16,27 @@ public class MainController {
     private Connection connection;
     private List<Command> commands;
     private CompanyDAO companyDAO;
+    private CustomerDAO customerDAO;
 
     public MainController() throws SQLException {
+
         view = new Console();
+
         dbConnector = new DatabaseManagerConnector("localhost", 5432, "it");
         connection = dbConnector.getConnection();
+
         companyDAO = new CompanyDAO(connection);
+        customerDAO = new CustomerDAO(connection);
+
         commands = Arrays.asList(
                 new CreateCompany(view, companyDAO),
                 new DeleteCompany(view, companyDAO),
                 new GetCompany(view, companyDAO),
-                new GetAllCompanies(companyDAO)
+                new GetAllCompanies(companyDAO),
+                new CreateCustomer(view, customerDAO),
+                new DeleteCustomer(view, customerDAO),
+                new GetCustomer(view, customerDAO),
+                new GetAllCustomers(customerDAO)
         );
     }
 
@@ -34,7 +44,8 @@ public class MainController {
 
         view.write("Welcome");
         while (true) {
-            view.write("Chose a command. Press Q to exit");
+            view.write("Choose a command. Press Q to exit");
+            commands.forEach(x -> System.out.println(x.command()));
             String input = view.read();
             if (input.equals("Q"))
                 break;
