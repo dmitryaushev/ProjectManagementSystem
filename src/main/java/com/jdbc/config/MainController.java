@@ -1,9 +1,6 @@
 package com.jdbc.config;
 
-import com.jdbc.dao.CompanyDAO;
-import com.jdbc.dao.CustomerDAO;
-import com.jdbc.dao.DeveloperDAO;
-import com.jdbc.dao.ProjectDAO;
+import com.jdbc.dao.*;
 import com.jdbc.service.*;
 
 import java.sql.Connection;
@@ -21,6 +18,7 @@ public class MainController {
     private CustomerDAO customerDAO;
     private DeveloperDAO developerDAO;
     private ProjectDAO projectDAO;
+    private SkillDAO skillDAO;
 
     public MainController() throws SQLException {
 
@@ -33,6 +31,7 @@ public class MainController {
         customerDAO = new CustomerDAO(connection);
         developerDAO = new DeveloperDAO(connection);
         projectDAO = new ProjectDAO(connection);
+        skillDAO = new SkillDAO(connection);
 
         commands = Arrays.asList(
                 new CreateCompany(view, companyDAO),
@@ -50,7 +49,9 @@ public class MainController {
                 new CreateProject(view, projectDAO),
                 new DeleteProject(view, projectDAO),
                 new GetProject(view, projectDAO),
-                new GetAllProjects(projectDAO)
+                new GetAllProjects(projectDAO),
+                new LinkDeveloperToProject(view, developerDAO, projectDAO),
+                new LinkDeveloperToSkill(view, developerDAO, skillDAO)
         );
     }
 
