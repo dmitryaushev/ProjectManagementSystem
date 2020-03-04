@@ -26,5 +26,10 @@ public class GetCompany implements Command {
         companyDAO.getAll().forEach(x -> System.out.println(x.getCompanyID()));
         int id = Integer.parseInt(view.read());
         System.out.println(companyDAO.getByID(id).toString());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

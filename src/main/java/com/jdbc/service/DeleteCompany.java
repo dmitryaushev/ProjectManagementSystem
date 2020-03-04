@@ -26,5 +26,11 @@ public class DeleteCompany implements Command {
         companyDAO.getAll().forEach(System.out::println);
         int id = Integer.parseInt(view.read());
         companyDAO.remove(id);
+        System.err.println("Company deleted");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

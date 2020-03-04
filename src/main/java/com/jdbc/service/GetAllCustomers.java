@@ -20,5 +20,10 @@ public class GetAllCustomers implements Command {
     public void process() {
 
         customerDAO.getAll().forEach(System.out::println);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

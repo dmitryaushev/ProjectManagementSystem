@@ -20,5 +20,10 @@ public class GetAllCompanies implements Command {
     public void process() {
 
         companyDAO.getAll().forEach(System.out::println);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -26,5 +26,10 @@ public class GetCustomer implements Command {
         customerDAO.getAll().forEach(x -> System.out.println(x.getCustomerID()));
         int id = Integer.parseInt(view.read());
         System.out.println(customerDAO.getByID(id).toString());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -26,5 +26,10 @@ public class GetProject implements Command {
         projectDAO.getAll().forEach(x -> System.out.println(x.getProjectID()));
         int id =Integer.parseInt(view.read());
         System.out.println(projectDAO.getByID(id).toString());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

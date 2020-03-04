@@ -26,5 +26,11 @@ public class DeleteCustomer implements Command {
         customerDAO.getAll().forEach(System.out::println);
         int id = Integer.parseInt(view.read());
         customerDAO.remove(id);
+        System.err.println("Customer deleted");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

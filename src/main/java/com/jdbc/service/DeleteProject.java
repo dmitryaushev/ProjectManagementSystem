@@ -26,5 +26,11 @@ public class DeleteProject implements Command {
         projectDAO.getAll().forEach(System.out::println);
         int id = Integer.parseInt(view.read());
         projectDAO.remove(id);
+        System.err.println("Project deleted");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
