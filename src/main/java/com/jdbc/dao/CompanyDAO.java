@@ -18,6 +18,7 @@ public class CompanyDAO extends DataAccessObject<Company> {
             "VALUES (?, ?);";
     private static final String SELECT = "SELECT * FROM companies WHERE company_id = ?;";
     private static final String SELECT_ALL = "SELECT * FROM companies;";
+    private static final String UPDATE = "UPDATE companies SET company_name = ?, location = ? WHERE company_id = ?;";
     private static final String DELETE = "DELETE FROM companies WHERE company_id = ?;";
 
     public CompanyDAO(Connection connection) {
@@ -84,6 +85,16 @@ public class CompanyDAO extends DataAccessObject<Company> {
     @Override
     public void update(Company company) {
 
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+
+            statement.setString(1, company.getCompanyName());
+            statement.setString(2, company.getLocation());
+            statement.setInt(3, company.getCompanyID());
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

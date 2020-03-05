@@ -18,6 +18,10 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
                                          "VALUES(?, ?, ?, ?, ?);";
     private static final String SELECT = "SELECT * FROM developers WHERE developer_id = ?";
     private static final String SELECT_ALL = "SELECT * FROM developers;";
+    private static final String UPDATE =
+            "UPDATE developers " +
+            "SET first_name = ?, last_name = ?, gender = ?, age = ?, salary = ? " +
+            "WHERE developer_id = ?;";
     private static final String DELETE = "DELETE FROM developers WHERE developer_id = ?;";
 
     private static String getAllDevelopersByDepartment;
@@ -100,8 +104,20 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
     }
 
     @Override
-    public void update(Developer object) {
+    public void update(Developer developer) {
 
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+
+            statement.setString(1, developer.getFirstName());
+            statement.setString(2, developer.getLastName());
+            statement.setString(3, developer.getGender());
+            statement.setInt(4, developer.getAge());
+            statement.setInt(5, developer.getSalary());
+            statement.setInt(6, developer.getDeveloperID());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -59,7 +59,11 @@ public class MainController {
                 new GetAllDevelopersByProject(view, projectDAO),
                 new GetAllProjectsWithDevelopers(projectDAO),
                 new GetAllDevelopersByDepartment(view, developerDAO, skillDAO),
-                new GetAllDevelopersByLevel(view, developerDAO, skillDAO)
+                new GetAllDevelopersByLevel(view, developerDAO, skillDAO),
+                new UpdateCompany(view, companyDAO),
+                new UpdateCustomer(view, customerDAO),
+                new UpdateDeveloper(view, developerDAO),
+                new UpdateProject(view, projectDAO)
         );
     }
 

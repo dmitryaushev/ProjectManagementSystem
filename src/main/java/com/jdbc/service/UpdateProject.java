@@ -7,24 +7,27 @@ import com.jdbc.model.Project;
 
 import java.sql.Date;
 
-public class CreateProject implements Command {
+public class UpdateProject implements Command {
 
     private View view;
     private ProjectDAO projectDAO;
 
-    public CreateProject(View view, ProjectDAO projectDAO) {
+    public UpdateProject(View view, ProjectDAO projectDAO) {
         this.view = view;
         this.projectDAO = projectDAO;
     }
 
     @Override
     public String command() {
-        return "Create project";
+        return "Update project";
     }
 
     @Override
     public void process() {
 
+        view.write("Choose project id");
+        projectDAO.getAll().forEach(System.out::println);
+        int projectID = Integer.parseInt(view.read());
         view.write("Enter a project title");
         String title = view.read();
         view.write("Enter a project status");
@@ -35,13 +38,14 @@ public class CreateProject implements Command {
         int cost = Integer.parseInt(view.read());
 
         Project project = new Project();
+        project.setProjectID(projectID);
         project.setProjectName(title);
         project.setStatus(status);
         project.setDate(date);
         project.setCost(cost);
-        projectDAO.create(project);
+        projectDAO.update(project);
 
-        System.err.println("Project created");
+        System.err.println("Project updated");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

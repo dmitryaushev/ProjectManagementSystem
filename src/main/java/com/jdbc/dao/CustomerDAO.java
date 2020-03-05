@@ -18,6 +18,7 @@ public class CustomerDAO extends DataAccessObject<Customer> {
             "VALUES (?, ?);";
     private static final String SELECT = "SELECT * FROM customers WHERE customer_id = ?;";
     private static final String SELECT_ALL = "SELECT * FROM customers;";
+    private static final String UPDATE = "UPDATE customers SET customer_name = ?, location = ? WHERE customer_id = ?;";
     private static final String DELETE = "DELETE FROM customers WHERE customer_id = ?;";
 
     public CustomerDAO(Connection connection) {
@@ -82,8 +83,17 @@ public class CustomerDAO extends DataAccessObject<Customer> {
     }
 
     @Override
-    public void update(Customer object) {
+    public void update(Customer customer) {
 
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+
+            statement.setString(1, customer.getCustomerName());
+            statement.setString(2, customer.getLocation());
+            statement.setInt(3, customer.getCustomerID());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

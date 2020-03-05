@@ -16,6 +16,10 @@ public class ProjectDAO extends DataAccessObject<Project> {
                                          "VALUES (?, ?, ?, ?);";
     private static final String SELECT = "SELECT * FROM projects WHERE project_id = ?;";
     private static final String SELECT_ALL = "SELECT * FROM projects;";
+    private static final String UPDATE =
+            "UPDATE projects " +
+            "SET project_name = ?, status = ?, cost = ?, date = ? " +
+            "WHERE project_id = ?;";
     private static final String DELETE = "DELETE FROM projects WHERE project_id = ?;";
 
     private static String getSumSalaryByProject;
@@ -95,8 +99,19 @@ public class ProjectDAO extends DataAccessObject<Project> {
     }
 
     @Override
-    public void update(Project object) {
+    public void update(Project project) {
 
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+
+            statement.setString(1, project.getProjectName());
+            statement.setString(2, project.getStatus());
+            statement.setInt(3, project.getCost());
+            statement.setDate(4, project.getDate());
+            statement.setInt(5, project.getProjectID());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
