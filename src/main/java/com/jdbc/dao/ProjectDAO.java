@@ -110,18 +110,18 @@ public class ProjectDAO extends DataAccessObject<Project> {
         }
     }
 
-    public int getSumSalary(Project project) {
+    public int getSumSalary(int id) {
 
         getSumSalaryByProject =
                 "SELECT sum(salary)\n" +
                 "FROM developers d\n" +
                 "JOIN developer_project dp ON d.developer_id = dp.developer_id\n" +
                 "JOIN projects p ON dp.project_id = p.project_id\n" +
-                "WHERE p.project_name = ?;";
+                "WHERE p.project_id = ?;";
         int sum = 0;
 
         try (PreparedStatement statement = connection.prepareStatement(getSumSalaryByProject)) {
-            statement.setString(1, project.getProjectName());
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next())
@@ -133,7 +133,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return sum;
     }
 
-    public List<Developer> getAllDevelopers (Project project) {
+    public List<Developer> getAllDevelopers (int id) {
 
         getAllDevelopersByProject =
                 "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
@@ -141,10 +141,11 @@ public class ProjectDAO extends DataAccessObject<Project> {
                 "JOIN developer_project dp ON d.developer_id = dp.developer_id\n" +
                 "JOIN projects p ON dp.project_id = p.project_id\n" +
                 "WHERE p.project_id = ?;";
+
         List<Developer> developersList = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(getAllDevelopersByProject)) {
-            statement.setInt(1, project.getProjectID());
+            statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -166,7 +167,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return developersList;
     }
 
-    public List<String> getALLProjectsWithDevelopers() {
+    public List<String> getAllProjectsWithDevelopers() {
 
         getAllProjectsWithDevelopers =
                 "SELECT p.date, p.project_name, count(d) AS amount\n" +

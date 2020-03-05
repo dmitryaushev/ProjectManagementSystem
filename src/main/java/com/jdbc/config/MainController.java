@@ -14,6 +14,7 @@ public class MainController {
     private DatabaseManagerConnector dbConnector;
     private Connection connection;
     private List<Command> commands;
+
     private CompanyDAO companyDAO;
     private CustomerDAO customerDAO;
     private DeveloperDAO developerDAO;
@@ -53,7 +54,10 @@ public class MainController {
                 new LinkDeveloperToProject(view, developerDAO, projectDAO),
                 new LinkDeveloperToSkill(view, developerDAO, skillDAO),
                 new LinkProjectToCustomer(view, projectDAO, customerDAO),
-                new LinkProjectToCompany(view, projectDAO, companyDAO)
+                new LinkProjectToCompany(view, projectDAO, companyDAO),
+                new GetSumSalaryByProject(view, projectDAO),
+                new GetAllDevelopersByProject(view, projectDAO),
+                new GetAllProjectsWithDevelopers(projectDAO)
         );
     }
 
@@ -61,7 +65,7 @@ public class MainController {
 
         view.write("Welcome");
         while (true) {
-            view.write("Choose a command. Press Q to exit");
+            view.write("\nChoose a command. Press Q to exit\n");
             commands.forEach(x -> System.out.println(x.command()));
             String input = view.read();
             if (input.equals("Q"))
