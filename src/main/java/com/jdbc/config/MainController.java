@@ -51,7 +51,9 @@ public class MainController {
                 new GetProject(view, projectDAO),
                 new GetAllProjects(projectDAO),
                 new LinkDeveloperToProject(view, developerDAO, projectDAO),
-                new LinkDeveloperToSkill(view, developerDAO, skillDAO)
+                new LinkDeveloperToSkill(view, developerDAO, skillDAO),
+                new LinkProjectToCustomer(view, projectDAO, customerDAO),
+                new LinkProjectToCompany(view, projectDAO, companyDAO)
         );
     }
 
