@@ -20,8 +20,8 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
     private static final String SELECT_ALL = "SELECT * FROM developers;";
     private static final String DELETE = "DELETE FROM developers WHERE developer_id = ?;";
 
-    private static String getAllDeveloperByDepartment;
-    private static String getAllDeveloperByLevel;
+    private static String getAllDevelopersByDepartment;
+    private static String getAllDevelopersByLevel;
 
     private static String linkDeveloperProject = "INSERT INTO developer_project(developer_id, project_id) " +
                                                  "VALUES(?, ?);";
@@ -115,9 +115,9 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         }
     }
 
-    public List<Developer> getAllDeveloperByDepartment(String department) {
+    public List<Developer> getAllDevelopersByDepartment(String department) {
 
-        getAllDeveloperByDepartment =
+        getAllDevelopersByDepartment =
                 "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
                 "FROM developers d\n" +
                 "JOIN developer_skill ds ON d.developer_id = ds.developer_id\n" +
@@ -125,7 +125,7 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
                 "WHERE s.department = ?;";
         List<Developer> developersList = new ArrayList<>();
 
-        try(PreparedStatement statement = connection.prepareStatement(getAllDeveloperByDepartment)) {
+        try(PreparedStatement statement = connection.prepareStatement(getAllDevelopersByDepartment)) {
             statement.setString(1, department);
 
             ResultSet resultSet = statement.executeQuery();
@@ -148,17 +148,18 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         return developersList;
     }
 
-    public List<Developer> getAllDeveloperByLevel(String level) {
+    public List<Developer> getAllDevelopersByLevel(String level) {
 
-        getAllDeveloperByLevel =
+        getAllDevelopersByLevel =
                 "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
                 "FROM developers d\n" +
                 "JOIN developer_skill ds ON d.developer_id = ds.developer_id\n" +
                 "JOIN skills s ON ds.skill_id = s.skill_id\n" +
-                "WHERE s.level = ?;";
+                "WHERE s.level = ?" +
+                "GROUP BY d.developer_id;";
         List<Developer> developersList = new ArrayList<>();
 
-        try(PreparedStatement statement = connection.prepareStatement(getAllDeveloperByLevel)) {
+        try(PreparedStatement statement = connection.prepareStatement(getAllDevelopersByLevel)) {
             statement.setString(1, level);
 
             ResultSet resultSet = statement.executeQuery();

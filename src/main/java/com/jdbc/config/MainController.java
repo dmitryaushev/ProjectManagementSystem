@@ -57,7 +57,9 @@ public class MainController {
                 new LinkProjectToCompany(view, projectDAO, companyDAO),
                 new GetSumSalaryByProject(view, projectDAO),
                 new GetAllDevelopersByProject(view, projectDAO),
-                new GetAllProjectsWithDevelopers(projectDAO)
+                new GetAllProjectsWithDevelopers(projectDAO),
+                new GetAllDevelopersByDepartment(view, developerDAO, skillDAO),
+                new GetAllDevelopersByLevel(view, developerDAO, skillDAO)
         );
     }
 
@@ -68,7 +70,7 @@ public class MainController {
             view.write("\nChoose a command. Press Q to exit\n");
             commands.forEach(x -> System.out.println(x.command()));
             String input = view.read();
-            if (input.equals("Q"))
+            if (input.equalsIgnoreCase("Q"))
                 break;
             doCommand(input);
         }
