@@ -34,7 +34,7 @@ public class CreateCompany implements Command {
         company.setLocation(location);
         companyDAO.create(company);
 
-        System.err.println("Company created");
+        view.redWrite("Company created");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

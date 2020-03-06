@@ -29,7 +29,7 @@ public class GetSumSalaryByProject implements Command {
         int sum = projectDAO.getSumSalary(projectID);
         String projectTitle = projectDAO.getByID(projectID).getProjectName();
 
-        System.err.printf("Salary of all developers in project %s is %d\n", projectTitle, sum);
+        view.redWrite(String.format("Salary of all developers in project %s is %d\n", projectTitle, sum));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

@@ -19,7 +19,7 @@ public class GetAllProjectsWithDevelopers implements Command {
     @Override
     public void process() {
 
-        projectDAO.getAllProjectsWithDevelopers().forEach(System.out::println);
+        projectDAO.getAllProjectsWithDevelopers().forEach(System.err::println);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

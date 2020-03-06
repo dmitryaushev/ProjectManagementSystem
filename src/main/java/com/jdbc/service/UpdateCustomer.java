@@ -37,7 +37,7 @@ public class UpdateCustomer implements Command {
         customer.setLocation(location);
 
         customerDAO.update(customer);
-        System.err.println("Customer updated");
+        view.redWrite("Customer updated");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

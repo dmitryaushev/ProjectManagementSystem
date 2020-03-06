@@ -37,7 +37,7 @@ public class UpdateCompany implements Command {
         company.setLocation(location);
 
         companyDAO.update(company);
-        System.err.println("Company updated");
+        view.redWrite("Company updated");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

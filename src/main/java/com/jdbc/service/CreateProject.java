@@ -41,7 +41,7 @@ public class CreateProject implements Command {
         project.setCost(cost);
         projectDAO.create(project);
 
-        System.err.println("Project created");
+        view.redWrite("Project created");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

@@ -45,7 +45,7 @@ public class UpdateProject implements Command {
         project.setCost(cost);
         projectDAO.update(project);
 
-        System.err.println("Project updated");
+        view.redWrite("Project updated");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

@@ -38,7 +38,7 @@ public class LinkProjectToCompany implements Command {
         String projectTitle = projectDAO.getByID(projectID).getProjectName();
         String companyName = companyDAO.getByID(companyID).getCompanyName();
 
-        System.err.printf("Project %s will be develop by company %s \n", projectTitle, companyName);
+        view.redWrite(String.format("Project %s will be develop by company %s \n", projectTitle, companyName));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

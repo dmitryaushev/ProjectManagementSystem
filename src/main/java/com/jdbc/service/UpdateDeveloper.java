@@ -46,7 +46,7 @@ public class UpdateDeveloper implements Command {
         developer.setSalary(salary);
         developerDAO.update(developer);
 
-        System.err.println("Developer updated");
+        view.redWrite("Developer updated");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

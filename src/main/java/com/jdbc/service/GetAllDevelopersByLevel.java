@@ -36,7 +36,7 @@ public class GetAllDevelopersByLevel implements Command {
                 .forEach(System.out::println);
         String level = view.read();
 
-        developerDAO.getAllDevelopersByLevel(level).forEach(System.out::println);
+        developerDAO.getAllDevelopersByLevel(level).forEach(System.err::println);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

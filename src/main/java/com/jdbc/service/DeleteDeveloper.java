@@ -26,7 +26,7 @@ public class DeleteDeveloper implements Command {
         developerDAO.getAll().forEach(System.out::println);
         int id = Integer.parseInt(view.read());
         developerDAO.remove(id);
-        System.err.println("Developer deleted");
+        view.redWrite("Developer deleted");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

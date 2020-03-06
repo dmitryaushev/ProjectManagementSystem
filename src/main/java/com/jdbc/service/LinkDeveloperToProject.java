@@ -39,7 +39,7 @@ public class LinkDeveloperToProject implements Command {
         String lastName = developerDAO.getByID(developerID).getLastName();
         String title = projectDAO.getByID(projectID).getProjectName();
 
-        System.err.printf("Developer %s %s will be develop a project %s \n", firstName, lastName, title);
+        view.redWrite(String.format("Developer %s %s will be develop a project %s \n", firstName, lastName, title));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

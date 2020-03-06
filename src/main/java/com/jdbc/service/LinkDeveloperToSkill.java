@@ -53,7 +53,7 @@ public class LinkDeveloperToSkill implements Command {
         String firstName = developerDAO.getByID(developerID).getFirstName();
         String lastName = developerDAO.getByID(developerID).getLastName();
 
-        System.err.printf("%s %s is %s %s developer \n", firstName, lastName, department, level);
+        view.redWrite(String.format("%s %s is %s %s developer \n", firstName, lastName, department, level));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

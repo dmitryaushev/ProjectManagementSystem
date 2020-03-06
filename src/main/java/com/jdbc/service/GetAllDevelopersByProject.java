@@ -26,7 +26,7 @@ public class GetAllDevelopersByProject implements Command {
         projectDAO.getAll().forEach(System.out::println);
         int projectID = Integer.parseInt(view.read());
 
-        projectDAO.getAllDevelopers(projectID).forEach(System.out::println);
+        projectDAO.getAllDevelopers(projectID).forEach(System.err::println);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

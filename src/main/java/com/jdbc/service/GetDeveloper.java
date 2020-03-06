@@ -25,7 +25,7 @@ public class GetDeveloper implements Command {
         view.write("Choose developer id");
         developerDAO.getAll().forEach(x -> System.out.println(x.getDeveloperID()));
         int id = Integer.parseInt(view.read());
-        System.out.println(developerDAO.getByID(id).toString());
+        view.redWrite(developerDAO.getByID(id).toString());
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

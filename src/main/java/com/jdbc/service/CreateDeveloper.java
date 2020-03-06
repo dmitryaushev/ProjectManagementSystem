@@ -42,7 +42,7 @@ public class CreateDeveloper implements Command {
         developer.setSalary(salary);
         developerDAO.create(developer);
 
-        System.err.println("Developer created");
+        view.redWrite("Developer created");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

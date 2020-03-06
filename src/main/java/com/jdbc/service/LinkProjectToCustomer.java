@@ -38,7 +38,7 @@ public class LinkProjectToCustomer implements Command {
         String projectTitle = projectDAO.getByID(projectID).getProjectName();
         String customerName = customerDAO.getByID(customerID).getCustomerName();
 
-        System.err.printf("Project %s by customer %s \n", projectTitle, customerName);
+        view.redWrite(String.format("Project %s by customer %s \n", projectTitle, customerName));
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

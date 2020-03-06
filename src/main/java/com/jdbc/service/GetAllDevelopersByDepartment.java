@@ -36,7 +36,7 @@ public class GetAllDevelopersByDepartment implements Command {
                 .forEach(System.out::println);
         String department = view.read();
 
-        developerDAO.getAllDevelopersByDepartment(department).forEach(System.out::println);
+        developerDAO.getAllDevelopersByDepartment(department).forEach(System.err::println);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

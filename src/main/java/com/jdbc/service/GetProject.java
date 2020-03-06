@@ -25,7 +25,7 @@ public class GetProject implements Command {
         view.write("Choose project id");
         projectDAO.getAll().forEach(x -> System.out.println(x.getProjectID()));
         int id =Integer.parseInt(view.read());
-        System.out.println(projectDAO.getByID(id).toString());
+        view.redWrite(projectDAO.getByID(id).toString());
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
