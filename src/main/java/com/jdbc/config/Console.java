@@ -13,4 +13,9 @@ public class Console implements View {
     public void write(String message) {
         System.out.println(message);
     }
+
+    @Override
+    public void redWrite(String message) {
+        System.err.println(message);
+    }
 }
