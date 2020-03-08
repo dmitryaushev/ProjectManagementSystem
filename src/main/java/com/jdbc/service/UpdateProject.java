@@ -6,6 +6,8 @@ import com.jdbc.dao.ProjectDAO;
 import com.jdbc.model.Project;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UpdateProject implements Command {
 
@@ -25,9 +27,19 @@ public class UpdateProject implements Command {
     @Override
     public void process() {
 
-        view.write("Choose project id");
-        projectDAO.getAll().forEach(System.out::println);
-        int projectID = Integer.parseInt(view.read());
+        List<Project> projectsList = projectDAO.getAll();
+        List<Integer> idList = projectsList
+                .stream()
+                .map(Project::getProjectID)
+                .collect(Collectors.toList());
+        int projectID;
+
+        do {
+            view.write("Choose project id");
+            projectsList.forEach(System.out::println);
+            projectID = Integer.parseInt(view.read());
+        } while (!matchInt(projectID, idList));
+
         view.write("Enter a project title");
         String title = view.read();
         view.write("Enter a project status");
@@ -45,7 +57,7 @@ public class UpdateProject implements Command {
         project.setCost(cost);
         projectDAO.update(project);
 
-        view.redWrite("Project updated");
+        System.err.println("Project updated");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

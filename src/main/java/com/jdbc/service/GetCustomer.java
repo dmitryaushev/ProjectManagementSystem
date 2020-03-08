@@ -3,6 +3,10 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.CustomerDAO;
+import com.jdbc.model.Customer;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetCustomer implements Command {
 
@@ -22,10 +26,19 @@ public class GetCustomer implements Command {
     @Override
     public void process() {
 
-        view.write("Choose customer id");
-        customerDAO.getAll().forEach(x -> System.out.println(x.getCustomerID()));
-        int id = Integer.parseInt(view.read());
-        view.redWrite(customerDAO.getByID(id).toString());
+        List<Integer> idList = customerDAO.getAll()
+                .stream()
+                .map(Customer::getCustomerID)
+                .collect(Collectors.toList());
+        int customerID;
+
+        do {
+            view.write("Choose customer id");
+            idList.forEach(System.out::println);
+            customerID = Integer.parseInt(view.read());
+        } while (!matchInt(customerID, idList));
+
+        view.redWrite(customerDAO.getByID(customerID).toString());
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

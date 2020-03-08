@@ -5,6 +5,9 @@ import com.jdbc.config.View;
 import com.jdbc.dao.CompanyDAO;
 import com.jdbc.model.Company;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UpdateCompany implements Command {
 
     private View view;
@@ -23,9 +26,19 @@ public class UpdateCompany implements Command {
     @Override
     public void process() {
 
-        view.write("Choose company id");
-        companyDAO.getAll().forEach(System.out::println);
-        int companyID = Integer.parseInt(view.read());
+        List<Company> companiesList = companyDAO.getAll();
+        List<Integer> idList = companiesList
+                .stream()
+                .map(Company::getCompanyID)
+                .collect(Collectors.toList());
+        int companyID;
+
+        do {
+            view.write("Choose company id");
+            companiesList.forEach(System.out::println);
+            companyID = Integer.parseInt(view.read());
+        } while (!matchInt(companyID, idList));
+
         view.write("Enter a company name");
         String companyName = view.read();
         view.write("Enter a company location");

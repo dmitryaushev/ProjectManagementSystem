@@ -3,6 +3,10 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.CompanyDAO;
+import com.jdbc.model.Company;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetCompany implements Command {
 
@@ -22,10 +26,19 @@ public class GetCompany implements Command {
     @Override
     public void process() {
 
-        view.write("Choose company id");
-        companyDAO.getAll().forEach(x -> System.out.println(x.getCompanyID()));
-        int id = Integer.parseInt(view.read());
-        view.redWrite(companyDAO.getByID(id).toString());
+        List<Integer> idList = companyDAO.getAll()
+                .stream()
+                .map(Company::getCompanyID)
+                .collect(Collectors.toList());
+        int companyID;
+
+        do {
+            view.write("Choose company id");
+            idList.forEach(System.out::println);
+            companyID = Integer.parseInt(view.read());
+        } while (!matchInt(companyID, idList));
+
+        view.redWrite(companyDAO.getByID(companyID).toString());
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

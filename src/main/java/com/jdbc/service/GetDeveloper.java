@@ -3,6 +3,10 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.DeveloperDAO;
+import com.jdbc.model.Developer;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetDeveloper implements Command {
 
@@ -22,10 +26,19 @@ public class GetDeveloper implements Command {
     @Override
     public void process() {
 
-        view.write("Choose developer id");
-        developerDAO.getAll().forEach(x -> System.out.println(x.getDeveloperID()));
-        int id = Integer.parseInt(view.read());
-        view.redWrite(developerDAO.getByID(id).toString());
+        List<Integer> idList = developerDAO.getAll()
+                .stream()
+                .map(Developer::getDeveloperID)
+                .collect(Collectors.toList());
+        int developerID;
+
+        do {
+            view.write("Choose developer id");
+            idList.forEach(System.out::println);
+            developerID = Integer.parseInt(view.read());
+        } while (!matchInt(developerID, idList));
+
+        view.redWrite(developerDAO.getByID(developerID).toString());
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
