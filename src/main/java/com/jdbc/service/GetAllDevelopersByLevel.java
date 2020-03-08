@@ -6,6 +6,7 @@ import com.jdbc.dao.DeveloperDAO;
 import com.jdbc.dao.SkillDAO;
 import com.jdbc.model.Skill;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GetAllDevelopersByLevel implements Command {
@@ -28,13 +29,17 @@ public class GetAllDevelopersByLevel implements Command {
     @Override
     public void process() {
 
-        view.write("Choose skill level");
-        skillDAO.getAll()
+        Set<String> levelsSet = skillDAO.getAll()
                 .stream()
                 .map(Skill::getLevel)
-                .collect(Collectors.toSet())
-                .forEach(System.out::println);
-        String level = view.read();
+                .collect(Collectors.toSet());
+        String level;
+
+        do {
+            view.write("Choose skill level");
+            levelsSet.forEach(System.out::println);
+            level = view.read();
+        } while (!matchString(level, levelsSet));
 
         developerDAO.getAllDevelopersByLevel(level).forEach(System.err::println);
         try {

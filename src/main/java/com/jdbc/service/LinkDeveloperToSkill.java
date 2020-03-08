@@ -6,6 +6,7 @@ import com.jdbc.dao.DeveloperDAO;
 import com.jdbc.dao.SkillDAO;
 import com.jdbc.model.Skill;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class LinkDeveloperToSkill implements Command {
@@ -28,25 +29,32 @@ public class LinkDeveloperToSkill implements Command {
     @Override
     public void process() {
 
+        Set<String> departmentsSet = skillDAO.getAll()
+                .stream()
+                .map(Skill::getDepartment)
+                .collect(Collectors.toSet());
+        Set<String> levelsSet = skillDAO.getAll()
+                .stream()
+                .map(Skill::getLevel)
+                .collect(Collectors.toSet());
+        String department;
+        String level;
+
         view.write("Choose developer id");
         developerDAO.getAll().forEach(System.out::println);
         int developerID = Integer.parseInt(view.read());
 
-        view.write("Choose skill department");
-        skillDAO.getAll()
-                .stream()
-                .map(Skill::getDepartment)
-                .collect(Collectors.toSet())
-                .forEach(System.out::println);
-        String department = view.read();
+        do {
+            view.write("Choose skill department");
+            departmentsSet.forEach(System.out::println);
+            department = view.read();
+        } while (!matchString(department, departmentsSet));
 
-        view.write("Choose skill level");
-        skillDAO.getAll()
-                .stream()
-                .map(Skill::getLevel)
-                .collect(Collectors.toSet())
-                .forEach(System.out::println);
-        String level = view.read();
+        do {
+            view.write("Choose skill level");
+            levelsSet.forEach(System.out::println);
+            level = view.read();
+        } while (!matchString(level, levelsSet));
 
         developerDAO.linkDeveloperSkill(developerID, department, level);
 
