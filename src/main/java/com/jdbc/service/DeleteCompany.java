@@ -39,6 +39,7 @@ public class DeleteCompany implements Command {
             companyID = Integer.parseInt(view.read());
         } while (!matchInt(companyID, idList));
 
+        companyDAO.unlinkCompanyProject(companyID);
         companyDAO.remove(companyID);
         view.redWrite("Company deleted");
         try {

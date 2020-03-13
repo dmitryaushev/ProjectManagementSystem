@@ -36,21 +36,25 @@ public class MainController {
 
         commands = Arrays.asList(
                 new CreateCompany(view, companyDAO),
-                new DeleteCompany(view, companyDAO),
-                new GetCompany(view, companyDAO),
-                new GetAllCompanies(companyDAO),
                 new CreateCustomer(view, customerDAO),
-                new DeleteCustomer(view, customerDAO),
-                new GetCustomer(view, customerDAO),
-                new GetAllCustomers(customerDAO),
                 new CreateDeveloper(view, developerDAO),
-                new DeleteDeveloper(view, developerDAO),
-                new GetDeveloper(view, developerDAO),
-                new GetAllDevelopers(developerDAO),
                 new CreateProject(view, projectDAO),
-                new DeleteProject(view, projectDAO),
+                new GetCompany(view, companyDAO),
+                new GetCustomer(view, customerDAO),
+                new GetDeveloper(view, developerDAO),
                 new GetProject(view, projectDAO),
+                new GetAllCompanies(companyDAO),
+                new GetAllCustomers(customerDAO),
+                new GetAllDevelopers(developerDAO),
                 new GetAllProjects(projectDAO),
+                new UpdateCompany(view, companyDAO),
+                new UpdateCustomer(view, customerDAO),
+                new UpdateDeveloper(view, developerDAO),
+                new UpdateProject(view, projectDAO),
+                new DeleteCompany(view, companyDAO),
+                new DeleteCustomer(view, customerDAO),
+                new DeleteDeveloper(view, developerDAO),
+                new DeleteProject(view, projectDAO),
                 new LinkDeveloperToProject(view, developerDAO, projectDAO),
                 new LinkDeveloperToSkill(view, developerDAO, skillDAO),
                 new LinkProjectToCustomer(view, projectDAO, customerDAO),
@@ -59,11 +63,7 @@ public class MainController {
                 new GetAllDevelopersByProject(view, projectDAO),
                 new GetAllProjectsWithDevelopers(projectDAO),
                 new GetAllDevelopersByDepartment(view, developerDAO, skillDAO),
-                new GetAllDevelopersByLevel(view, developerDAO, skillDAO),
-                new UpdateCompany(view, companyDAO),
-                new UpdateCustomer(view, customerDAO),
-                new UpdateDeveloper(view, developerDAO),
-                new UpdateProject(view, projectDAO)
+                new GetAllDevelopersByLevel(view, developerDAO, skillDAO)
         );
     }
 

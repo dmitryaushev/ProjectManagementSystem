@@ -39,7 +39,7 @@ public class GetAllDevelopersByProject implements Command {
             projectID = Integer.parseInt(view.read());
         } while (!matchInt(projectID, idList));
 
-        projectDAO.getAllDevelopers(projectID).forEach(System.err::println);
+        projectDAO.getAllDevelopersByProject(projectID).forEach(System.err::println);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

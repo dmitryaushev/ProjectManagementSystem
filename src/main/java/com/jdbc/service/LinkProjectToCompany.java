@@ -24,7 +24,7 @@ public class LinkProjectToCompany implements Command {
 
     @Override
     public String command() {
-        return "Link project to developer";
+        return "Link project to company";
     }
 
     @Override

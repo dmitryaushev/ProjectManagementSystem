@@ -39,6 +39,10 @@ public class DeleteProject implements Command {
             projectID = Integer.parseInt(view.read());
         } while (!matchInt(projectID, idList));
 
+        projectDAO.unlinkCustomerProject(projectID);
+        projectDAO.unlinkCompanyProject(projectID);
+        projectDAO.unlinkDeveloperProject(projectID);
+
         projectDAO.remove(projectID);
         view.redWrite("Project deleted");
         try {

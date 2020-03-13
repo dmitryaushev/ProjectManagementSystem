@@ -39,6 +39,7 @@ public class DeleteDeveloper implements Command {
             developerID = Integer.parseInt(view.read());
         } while (!matchInt(developerID, idList));
 
+        developerDAO.unlinkDeveloperProject(developerID);
         developerDAO.remove(developerID);
         view.redWrite("Developer deleted");
         try {

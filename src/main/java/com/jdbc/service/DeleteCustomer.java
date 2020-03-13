@@ -39,6 +39,7 @@ public class DeleteCustomer implements Command {
             customerID = Integer.parseInt(view.read());
         } while (!matchInt(customerID, idList));
 
+        customerDAO.unlinkCustomerProject(customerID);
         customerDAO.remove(customerID);
         view.redWrite("Customer deleted");
         try {

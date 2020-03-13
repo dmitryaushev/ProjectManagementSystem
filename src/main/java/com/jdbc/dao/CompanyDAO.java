@@ -21,6 +21,8 @@ public class CompanyDAO extends DataAccessObject<Company> {
     private static final String UPDATE = "UPDATE companies SET company_name = ?, location = ? WHERE company_id = ?;";
     private static final String DELETE = "DELETE FROM companies WHERE company_id = ?;";
 
+    private static String unlinkCompanyProject = "DELETE FROM company_project WHERE company_id = ?;";
+
     public CompanyDAO(Connection connection) {
         this.connection = connection;
     }
@@ -102,6 +104,17 @@ public class CompanyDAO extends DataAccessObject<Company> {
 
         try(PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unlinkCompanyProject(int companyID) {
+
+        try (PreparedStatement statement = connection.prepareStatement(unlinkCompanyProject)) {
+
+            statement.setInt(1, companyID);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

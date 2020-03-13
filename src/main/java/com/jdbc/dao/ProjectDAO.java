@@ -29,7 +29,11 @@ public class ProjectDAO extends DataAccessObject<Project> {
     private static String linkCustomerProject = "INSERT INTO customer_project (customer_id, project_id) " +
                                                 "VALUES(?, ?)";
     private static String linkCompanyProject = "INSERT INTO company_project (company_id, project_id) " +
-                                               "VALUES(?, ?)";;
+                                               "VALUES(?, ?)";
+
+    private static String unlinkCustomerProject = "DELETE FROM customer_project WHERE project_id = ?;";
+    private static String unlinkCompanyProject = "DELETE FROM company_project WHERE project_id = ?;";
+    private static String unlinkDeveloperProject = "DELETE FROM developer_project WHERE project_id = ?;";
 
     public ProjectDAO(Connection connection) {
         this.connection = connection;
@@ -148,7 +152,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return sum;
     }
 
-    public List<Developer> getAllDevelopers (int id) {
+    public List<Developer> getAllDevelopersByProject(int id) {
 
         getAllDevelopersByProject =
                 "SELECT d.developer_id, d.first_name, d.last_name, d.gender, d.age, d.salary\n" +
@@ -213,28 +217,62 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return projectsList;
     }
 
-    public void linkCustomerProject (int customerID, int projectId) {
+    public void linkCustomerProject (int customerID, int projectID) {
 
         try (PreparedStatement statement = connection.prepareStatement(linkCustomerProject)) {
 
             statement.setInt(1, customerID);
-            statement.setInt(2, projectId);
+            statement.setInt(2, projectID);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void linkCompanyProject (int companyID, int projectId) {
+    public void linkCompanyProject (int companyID, int projectID) {
 
         try (PreparedStatement statement = connection.prepareStatement(linkCompanyProject)) {
 
             statement.setInt(1, companyID);
-            statement.setInt(2, projectId);
+            statement.setInt(2, projectID);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public void unlinkCustomerProject (int projectID) {
+
+        try (PreparedStatement statement = connection.prepareStatement(unlinkCustomerProject)) {
+
+            statement.setInt(1, projectID);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unlinkCompanyProject(int projectID) {
+
+        try (PreparedStatement statement = connection.prepareStatement(unlinkCompanyProject)) {
+
+            statement.setInt(1, projectID);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unlinkDeveloperProject(int projectID) {
+
+        try (PreparedStatement statement = connection.prepareStatement(unlinkDeveloperProject)) {
+
+            statement.setInt(1, projectID);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

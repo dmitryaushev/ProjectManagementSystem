@@ -31,6 +31,7 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
                                                  "VALUES(?, ?);";
     private static String linkDeveloperSkill = "INSERT INTO developer_skill(developer_id, skill_id) " +
                                                "VALUES(?, (SELECT skill_id FROM skills WHERE department = ? AND level = ?));";
+    private static String unlinkDeveloperProject = "DELETE FROM developer_project WHERE developer_id = ?;";
 
     public DeveloperDAO(Connection connection) {
         this.connection = connection;
@@ -217,6 +218,17 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
             statement.setInt(1, developerID);
             statement.setString(2, department);
             statement.setString(3, level);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unlinkDeveloperProject(int developerID) {
+
+        try (PreparedStatement statement = connection.prepareStatement(unlinkDeveloperProject)) {
+
+            statement.setInt(1, developerID);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
