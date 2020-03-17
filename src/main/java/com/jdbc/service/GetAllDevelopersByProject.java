@@ -26,18 +26,11 @@ public class GetAllDevelopersByProject implements Command {
     @Override
     public void process() {
 
-        List<Project> projectsList = projectDAO.getAll();
-        List<Integer> idList = projectsList
-                .stream()
-                .map(Project::getProjectID)
-                .collect(Collectors.toList());
-        int projectID;
+        view.write("Enter a project id");
+        int projectID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose project id");
-            projectsList.forEach(System.out::println);
-            projectID = Integer.parseInt(view.read());
-        } while (!matchInt(projectID, idList));
+        if (projectDAO.getByID(projectID) == null)
+            throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
         projectDAO.getAllDevelopersByProject(projectID).forEach(System.err::println);
         try {

@@ -26,17 +26,11 @@ public class GetCustomer implements Command {
     @Override
     public void process() {
 
-        List<Integer> idList = customerDAO.getAll()
-                .stream()
-                .map(Customer::getCustomerID)
-                .collect(Collectors.toList());
-        int customerID;
+        view.write("Enter a customer id");
+        int customerID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose customer id");
-            idList.forEach(System.out::println);
-            customerID = Integer.parseInt(view.read());
-        } while (!matchInt(customerID, idList));
+        if (customerDAO.getByID(customerID) == null)
+            throw new IllegalArgumentException(String.format("Customer with id %d not exist", customerID));
 
         view.redWrite(customerDAO.getByID(customerID).toString());
         try {

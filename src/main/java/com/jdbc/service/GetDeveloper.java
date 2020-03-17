@@ -26,17 +26,11 @@ public class GetDeveloper implements Command {
     @Override
     public void process() {
 
-        List<Integer> idList = developerDAO.getAll()
-                .stream()
-                .map(Developer::getDeveloperID)
-                .collect(Collectors.toList());
-        int developerID;
+        view.write("Enter a developer id");
+        int developerID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose developer id");
-            idList.forEach(System.out::println);
-            developerID = Integer.parseInt(view.read());
-        } while (!matchInt(developerID, idList));
+        if (developerDAO.getByID(developerID) == null)
+            throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
         view.redWrite(developerDAO.getByID(developerID).toString());
         try {

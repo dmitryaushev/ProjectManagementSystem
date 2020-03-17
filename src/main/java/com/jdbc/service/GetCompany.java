@@ -26,17 +26,11 @@ public class GetCompany implements Command {
     @Override
     public void process() {
 
-        List<Integer> idList = companyDAO.getAll()
-                .stream()
-                .map(Company::getCompanyID)
-                .collect(Collectors.toList());
-        int companyID;
+        view.write("Enter a company id");
+        int companyID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose company id");
-            idList.forEach(System.out::println);
-            companyID = Integer.parseInt(view.read());
-        } while (!matchInt(companyID, idList));
+        if (companyDAO.getByID(companyID) == null)
+            throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
 
         view.redWrite(companyDAO.getByID(companyID).toString());
         try {

@@ -26,17 +26,11 @@ public class GetProject implements Command {
     @Override
     public void process() {
 
-        List<Integer> idList = projectDAO.getAll()
-                .stream()
-                .map(Project::getProjectID)
-                .collect(Collectors.toList());
-        int projectID;
+        view.write("Enter a project id");
+        int projectID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose project id");
-            idList.forEach(System.out::println);
-            projectID = Integer.parseInt(view.read());
-        } while (!matchInt(projectID, idList));
+        if (projectDAO.getByID(projectID) == null)
+            throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
         view.redWrite(projectDAO.getByID(projectID).toString());
         try {
