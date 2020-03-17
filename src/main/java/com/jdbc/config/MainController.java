@@ -72,7 +72,7 @@ public class MainController {
         view.write("Welcome");
         while (true) {
             view.write("\nChoose a command. Press Q to exit\n");
-            commands.forEach(x -> System.out.println(x.command()));
+            commands.forEach(x -> view.write(x.command()));
             String input = view.read();
             if (input.equalsIgnoreCase("Q"))
                 break;
@@ -83,9 +83,13 @@ public class MainController {
     private void doCommand(String input) {
 
         for (Command command : commands)
-            if (command.canProcess(input)) {
-                command.process();
-                break;
+            try {
+                if (command.canProcess(input)) {
+                    command.process();
+                    break;
+                }
+            } catch (Exception e) {
+                view.write(e.getMessage());
             }
     }
 

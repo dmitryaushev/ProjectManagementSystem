@@ -3,10 +3,6 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.CompanyDAO;
-import com.jdbc.model.Company;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DeleteCompany implements Command {
 
@@ -26,22 +22,16 @@ public class DeleteCompany implements Command {
     @Override
     public void process() {
 
-        List<Company> companiesList = companyDAO.getAll();
-        List<Integer> idList = companiesList
-                .stream()
-                .map(Company::getCompanyID)
-                .collect(Collectors.toList());
-        int companyID;
+        view.write("Enter a company id");
+        int companyID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose company id");
-            companiesList.forEach(System.out::println);
-            companyID = Integer.parseInt(view.read());
-        } while (!matchInt(companyID, idList));
+        if (companyDAO.getByID(companyID) == null)
+            throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
 
         companyDAO.unlinkCompanyProject(companyID);
         companyDAO.remove(companyID);
         view.redWrite("Company deleted");
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

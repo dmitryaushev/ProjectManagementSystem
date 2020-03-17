@@ -3,10 +3,6 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.CustomerDAO;
-import com.jdbc.model.Customer;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DeleteCustomer implements Command {
 
@@ -26,22 +22,16 @@ public class DeleteCustomer implements Command {
     @Override
     public void process() {
 
-        List<Customer> customersList = customerDAO.getAll();
-        List<Integer> idList = customersList
-                .stream()
-                .map(Customer::getCustomerID)
-                .collect(Collectors.toList());
-        int customerID;
+        view.write("Enter a customer id");
+        int customerID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose customer id");
-            customersList.forEach(System.out::println);
-            customerID = Integer.parseInt(view.read());
-        } while (!matchInt(customerID, idList));
+        if (customerDAO.getByID(customerID) == null)
+            throw new IllegalArgumentException(String.format("Customer with id %d not exist", customerID));
 
         customerDAO.unlinkCustomerProject(customerID);
         customerDAO.remove(customerID);
         view.redWrite("Customer deleted");
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

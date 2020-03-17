@@ -3,10 +3,6 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.DeveloperDAO;
-import com.jdbc.model.Developer;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DeleteDeveloper implements Command {
 
@@ -26,18 +22,11 @@ public class DeleteDeveloper implements Command {
     @Override
     public void process() {
 
-        List<Developer> developersList = developerDAO.getAll();
-        List<Integer> idList = developersList
-                .stream()
-                .map(Developer::getDeveloperID)
-                .collect(Collectors.toList());
-        int developerID;
+        view.write("Enter a developer id");
+        int developerID = Integer.parseInt(view.read());
 
-        do {
-            view.write("Choose developer id");
-            developersList.forEach(System.out::println);
-            developerID = Integer.parseInt(view.read());
-        } while (!matchInt(developerID, idList));
+        if (developerDAO.getByID(developerID) == null)
+            throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
         developerDAO.unlinkDeveloperProject(developerID);
         developerDAO.remove(developerID);
