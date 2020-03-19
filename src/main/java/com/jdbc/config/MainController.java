@@ -71,7 +71,7 @@ public class MainController {
 
         view.write("Welcome");
         while (true) {
-            view.write("\nChoose a command. Press Q to exit\n");
+            view.write("\nChoose a command. Q to exit\n");
             commands.forEach(x -> view.write(x.command()));
             String input = view.read();
             if (input.equalsIgnoreCase("Q"))
@@ -90,6 +90,11 @@ public class MainController {
                 }
             } catch (Exception e) {
                 view.write(e.getMessage());
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
             }
     }
 

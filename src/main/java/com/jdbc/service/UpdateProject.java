@@ -36,14 +36,7 @@ public class UpdateProject implements Command {
 
         view.write("Update project? Y|N");
         view.write(project.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         view.write("Enter a project title");
         String title = view.read();
@@ -60,12 +53,7 @@ public class UpdateProject implements Command {
         project.setDate(date);
         project.setCost(cost);
         projectDAO.update(project);
-
         System.err.println("Project updated");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

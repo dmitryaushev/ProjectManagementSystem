@@ -33,10 +33,6 @@ public class GetDeveloper implements Command {
             throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
         view.redWrite(developerDAO.getByID(developerID).toString());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

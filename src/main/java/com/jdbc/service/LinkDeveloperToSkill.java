@@ -72,22 +72,10 @@ public class LinkDeveloperToSkill implements Command {
             ));
 
         view.write(String.format("%s %s is %s %s developer? Y|N", firstName, lastName, department, level));
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         developerDAO.linkDeveloperSkill(developerID, skillID);
-
         view.write("Successful");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

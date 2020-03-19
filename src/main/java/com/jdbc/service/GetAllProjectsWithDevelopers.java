@@ -20,10 +20,6 @@ public class GetAllProjectsWithDevelopers implements Command {
     public void process() {
 
         projectDAO.getAllProjectsWithDevelopers().forEach(System.err::println);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

@@ -35,10 +35,6 @@ public class GetSumSalaryByProject implements Command {
 
         int sum = projectDAO.getSumSalary(projectID);
         view.redWrite(String.format("Salary of all developers in project %s is %d\n", project.getProjectName(), sum));
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

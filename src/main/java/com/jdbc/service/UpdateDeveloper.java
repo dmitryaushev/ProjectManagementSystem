@@ -35,14 +35,7 @@ public class UpdateDeveloper implements Command {
 
         view.write("Update developer? Y|N");
         view.write(developer.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         view.write("Enter developer first name");
         String firstName = view.read();
@@ -62,12 +55,7 @@ public class UpdateDeveloper implements Command {
         developer.setAge(age);
         developer.setSalary(salary);
         developerDAO.update(developer);
-
         view.redWrite("Developer updated");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

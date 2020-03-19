@@ -33,10 +33,6 @@ public class GetCustomer implements Command {
             throw new IllegalArgumentException(String.format("Customer with id %d not exist", customerID));
 
         view.redWrite(customerDAO.getByID(customerID).toString());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

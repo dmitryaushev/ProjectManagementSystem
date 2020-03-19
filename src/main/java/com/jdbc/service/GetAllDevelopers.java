@@ -20,10 +20,6 @@ public class GetAllDevelopers implements Command {
     public void process() {
 
         developerDAO.getAll().forEach(System.err::println);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

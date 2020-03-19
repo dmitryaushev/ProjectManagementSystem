@@ -51,22 +51,10 @@ public class LinkDeveloperToProject implements Command {
             ));
 
         view.write(String.format("Connect %s %s with a project %s? Y|N", firstName, lastName, projectName));
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         developerDAO.linkDeveloperProject(developerID, projectID);
-
         view.write("Successful");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

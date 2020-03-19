@@ -32,23 +32,11 @@ public class DeleteCustomer implements Command {
 
         view.write("Delete customer? Y|N");
         view.write(customer.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         customerDAO.unlinkCustomerProject(customerID);
         customerDAO.delete(customerID);
         view.redWrite("Customer deleted");
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

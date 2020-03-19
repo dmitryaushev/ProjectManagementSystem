@@ -33,10 +33,6 @@ public class GetCompany implements Command {
             throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
 
         view.redWrite(companyDAO.getByID(companyID).toString());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

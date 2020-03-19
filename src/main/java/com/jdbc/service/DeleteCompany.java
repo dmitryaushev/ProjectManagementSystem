@@ -27,28 +27,17 @@ public class DeleteCompany implements Command {
         int companyID = Integer.parseInt(view.read());
         Company company = companyDAO.getByID(companyID);
 
-        if (company == null)
+        if (company == null) {
             throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
+        }
 
         view.write("Delete company? Y|N");
         view.write(company.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         companyDAO.unlinkCompanyProject(companyID);
         companyDAO.delete(companyID);
         view.redWrite("Company deleted");
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

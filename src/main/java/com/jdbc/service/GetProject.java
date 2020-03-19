@@ -33,10 +33,6 @@ public class GetProject implements Command {
             throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
         view.redWrite(projectDAO.getByID(projectID).toString());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

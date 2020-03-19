@@ -40,12 +40,7 @@ public class CreateProject implements Command {
         project.setDate(date);
         project.setCost(cost);
         projectDAO.create(project);
-
         view.redWrite("Project created");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

@@ -35,14 +35,7 @@ public class UpdateCustomer implements Command {
 
         view.write("Update customer? Y|N");
         view.write(customer.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         view.write("Enter a customer name");
         String customerName = view.read();
@@ -52,13 +45,8 @@ public class UpdateCustomer implements Command {
         customer.setCustomerID(customerID);
         customer.setCustomerName(customerName);
         customer.setLocation(location);
-
         customerDAO.update(customer);
         view.redWrite("Customer updated");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

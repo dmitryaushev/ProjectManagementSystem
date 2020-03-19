@@ -32,25 +32,13 @@ public class DeleteProject implements Command {
 
         view.write("Delete project? Y|N");
         view.write(project.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         projectDAO.unlinkCustomerProject(projectID);
         projectDAO.unlinkCompanyProject(projectID);
         projectDAO.unlinkDeveloperProject(projectID);
-
         projectDAO.delete(projectID);
         view.redWrite("Project deleted");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

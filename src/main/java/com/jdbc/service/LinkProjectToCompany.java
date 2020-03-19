@@ -53,22 +53,10 @@ public class LinkProjectToCompany implements Command {
             ));
 
         view.write(String.format("Connect a project %s with a company %s? Y|N", projectName, companyName));
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         projectDAO.linkCompanyProject(companyID, projectID);
-
         view.write("Successful");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

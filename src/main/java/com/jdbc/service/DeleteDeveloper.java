@@ -32,23 +32,12 @@ public class DeleteDeveloper implements Command {
 
         view.write("Delete developer? Y|N");
         view.write(developer.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         developerDAO.unlinkDeveloperProject(developerID);
         developerDAO.unlinkDeveloperSkill(developerID);
         developerDAO.delete(developerID);
         view.redWrite("Developer deleted");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

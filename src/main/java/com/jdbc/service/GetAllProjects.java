@@ -20,10 +20,6 @@ public class GetAllProjects implements Command {
     public void process() {
 
         projectDAO.getAll().forEach(System.err::println);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

@@ -41,12 +41,7 @@ public class CreateDeveloper implements Command {
         developer.setAge(age);
         developer.setSalary(salary);
         developerDAO.create(developer);
-
         view.redWrite("Developer created");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

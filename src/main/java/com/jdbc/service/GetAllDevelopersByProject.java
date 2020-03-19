@@ -33,10 +33,6 @@ public class GetAllDevelopersByProject implements Command {
             throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
         projectDAO.getAllDevelopersByProject(projectID).forEach(System.err::println);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }

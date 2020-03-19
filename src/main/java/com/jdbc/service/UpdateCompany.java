@@ -35,14 +35,7 @@ public class UpdateCompany implements Command {
 
         view.write("Update company? Y|N");
         view.write(company.toString());
-        switch (view.read()) {
-            case "Y":
-                break;
-            case "N":
-                return;
-            default:
-                throw new IllegalArgumentException("Wrong input");
-        }
+        question(view.read());
 
         view.write("Enter a company name");
         String companyName = view.read();
@@ -52,13 +45,8 @@ public class UpdateCompany implements Command {
         company.setCompanyID(companyID);
         company.setCompanyName(companyName);
         company.setLocation(location);
-
         companyDAO.update(company);
         view.redWrite("Company updated");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep();
     }
 }
