@@ -31,12 +31,12 @@ public class LinkDeveloperToSkill implements Command {
     @Override
     public void process() {
 
-        List<Developer> developersList = developerDAO.getAll();
-        List<Integer> idList = developersList
-                .stream()
-                .map(Developer::getDeveloperID)
-                .collect(Collectors.toList());
-        int developerID;
+        view.write("Enter a developer id");
+        int developerID = Integer.parseInt(view.read());
+        Developer developer = developerDAO.getByID(developerID);
+
+        if (developer == null)
+            throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
         Set<String> departmentsSet = skillDAO.getAll()
                 .stream()
@@ -51,12 +51,6 @@ public class LinkDeveloperToSkill implements Command {
         String level;
 
         do {
-            view.write("Choose developer id");
-            developersList.forEach(System.out::println);
-            developerID = Integer.parseInt(view.read());
-        } while (!matchInt(developerID, idList));
-
-        do {
             view.write("Choose skill department");
             departmentsSet.forEach(System.out::println);
             department = view.read();
@@ -68,12 +62,28 @@ public class LinkDeveloperToSkill implements Command {
             level = view.read();
         } while (!matchString(level, levelsSet));
 
-        developerDAO.linkDeveloperSkill(developerID, department, level);
+        int skillID = skillDAO.get(department, level).getSkillID();
+        String firstName = developer.getFirstName();
+        String lastName = developer.getLastName();
 
-        String firstName = developerDAO.getByID(developerID).getFirstName();
-        String lastName = developerDAO.getByID(developerID).getLastName();
+        if (developerDAO.checkDeveloperSkillLink(developerID, skillID))
+            throw new UnsupportedOperationException(String.format(
+                    "%s %s already %s %s developer", firstName, lastName, department, level
+            ));
 
-        view.redWrite(String.format("%s %s is %s %s developer \n", firstName, lastName, department, level));
+        view.write(String.format("%s %s is %s %s developer? Y|N", firstName, lastName, department, level));
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
+
+        developerDAO.linkDeveloperSkill(developerID, skillID);
+
+        view.write("Successful");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

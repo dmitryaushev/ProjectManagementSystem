@@ -7,9 +7,6 @@ import com.jdbc.dao.ProjectDAO;
 import com.jdbc.model.Developer;
 import com.jdbc.model.Project;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class LinkDeveloperToProject implements Command {
 
     private View view;
@@ -30,39 +27,42 @@ public class LinkDeveloperToProject implements Command {
     @Override
     public void process() {
 
-        List<Developer> developersList = developerDAO.getAll();
-        List<Integer> developersIDList = developersList
-                .stream()
-                .map(Developer::getDeveloperID)
-                .collect(Collectors.toList());
-        int developerID;
+        view.write("Enter a developer id");
+        int developerID = Integer.parseInt(view.read());
+        Developer developer = developerDAO.getByID(developerID);
 
-        List<Project> projectsList = projectDAO.getAll();
-        List<Integer> projectsIDList = projectsList
-                .stream()
-                .map(Project::getProjectID)
-                .collect(Collectors.toList());
-        int projectID;
+        if (developer == null)
+            throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
-        do {
-            view.write("Choose developer id");
-            developersList.forEach(System.out::println);
-            developerID = Integer.parseInt(view.read());
-        } while (!matchInt(developerID, developersIDList));
+        view.write("Enter a project id");
+        int projectID = Integer.parseInt(view.read());
+        Project project = projectDAO.getByID(projectID);
 
-        do {
-            view.write("Choose project id");
-            projectsList.forEach(System.out::println);
-            projectID = Integer.parseInt(view.read());
-        } while (!matchInt(projectID, projectsIDList));
+        if (project == null)
+            throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
+
+        String firstName = developer.getFirstName();
+        String lastName = developer.getLastName();
+        String projectName = project.getProjectName();
+
+        if (developerDAO.checkDeveloperProjectLink(developerID, projectID))
+            throw new UnsupportedOperationException(String.format(
+                    "Developer %s %s already developing a project %s", firstName, lastName, projectName
+            ));
+
+        view.write(String.format("Connect %s %s with a project %s? Y|N", firstName, lastName, projectName));
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
 
         developerDAO.linkDeveloperProject(developerID, projectID);
 
-        String firstName = developerDAO.getByID(developerID).getFirstName();
-        String lastName = developerDAO.getByID(developerID).getLastName();
-        String title = projectDAO.getByID(projectID).getProjectName();
-
-        view.redWrite(String.format("Developer %s %s will be develop a project %s \n", firstName, lastName, title));
+        view.write("Successful");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

@@ -30,38 +30,41 @@ public class LinkProjectToCompany implements Command {
     @Override
     public void process() {
 
-        List<Project> projectsList = projectDAO.getAll();
-        List<Integer> projectsIDList = projectsList
-                .stream()
-                .map(Project::getProjectID)
-                .collect(Collectors.toList());
-        int projectID;
+        view.write("Enter a project id");
+        int projectID = Integer.parseInt(view.read());
+        Project project = projectDAO.getByID(projectID);
 
-        List<Company> companiesList = companyDAO.getAll();
-        List<Integer> companiesIDList = companiesList
-                .stream()
-                .map(Company::getCompanyID)
-                .collect(Collectors.toList());
-        int companyID;
+        if (project == null)
+            throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
-        do {
-            view.write("Choose project id");
-            projectsList.forEach(System.out::println);
-            projectID = Integer.parseInt(view.read());
-        } while (!matchInt(projectID, projectsIDList));
+        view.write("Enter a company id");
+        int companyID = Integer.parseInt(view.read());
+        Company company = companyDAO.getByID(companyID);
 
-        do {
-            view.write("Choose company id");
-            companiesList.forEach(System.out::println);
-            companyID = Integer.parseInt(view.read());
-        } while (!matchInt(companyID, companiesIDList));
+        if (company == null)
+            throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
+
+        String projectName = projectDAO.getByID(projectID).getProjectName();
+        String companyName = companyDAO.getByID(companyID).getCompanyName();
+
+        if (projectDAO.checkCompanyProjectLink(companyID, projectID))
+            throw new UnsupportedOperationException(String.format(
+                    "Project %s already developing by company %s", projectName, companyName
+            ));
+
+        view.write(String.format("Connect a project %s with a company %s? Y|N", projectName, companyName));
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
 
         projectDAO.linkCompanyProject(companyID, projectID);
 
-        String projectTitle = projectDAO.getByID(projectID).getProjectName();
-        String companyName = companyDAO.getByID(companyID).getCompanyName();
-
-        view.redWrite(String.format("Project %s will be develop by company %s \n", projectTitle, companyName));
+        view.write("Successful");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

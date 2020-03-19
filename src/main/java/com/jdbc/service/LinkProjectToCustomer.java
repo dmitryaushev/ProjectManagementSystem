@@ -30,38 +30,41 @@ public class LinkProjectToCustomer implements Command {
     @Override
     public void process() {
 
-        List<Project> projectsList = projectDAO.getAll();
-        List<Integer> projectsIDList = projectsList
-                .stream()
-                .map(Project::getProjectID)
-                .collect(Collectors.toList());
-        int projectID;
+        view.write("Enter a project id");
+        int projectID = Integer.parseInt(view.read());
+        Project project = projectDAO.getByID(projectID);
 
-        List<Customer> customersList = customerDAO.getAll();
-        List<Integer> customersIDList = customersList
-                .stream()
-                .map(Customer::getCustomerID)
-                .collect(Collectors.toList());
-        int customerID;
+        if (project == null)
+            throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
-        do {
-            view.write("Choose project id");
-            projectsList.forEach(System.out::println);
-            projectID = Integer.parseInt(view.read());
-        } while (!matchInt(projectID, projectsIDList));
+        view.write("Enter a customer id");
+        int customerID = Integer.parseInt(view.read());
+        Customer customer = customerDAO.getByID(customerID);
 
-        do {
-            view.write("Chose customer id");
-            customersList.forEach(System.out::println);
-            customerID = Integer.parseInt(view.read());
-        } while (!matchInt(customerID, customersIDList));
+        if (customer == null)
+            throw new IllegalArgumentException(String.format("Customer with id %d not exist", customerID));
+
+        String projectName = projectDAO.getByID(projectID).getProjectName();
+        String customerName = customerDAO.getByID(customerID).getCustomerName();
+
+        if (projectDAO.checkCustomerProjectLink(customerID, projectID))
+            throw new UnsupportedOperationException(String.format(
+                    "Customer %s already owns project %s", customerName, projectName
+            ));
+
+        view.write(String.format("Connect a project %s with a customer %s? Y|N", projectName, customerName));
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
 
         projectDAO.linkCustomerProject(customerID, projectID);
 
-        String projectTitle = projectDAO.getByID(projectID).getProjectName();
-        String customerName = customerDAO.getByID(customerID).getCustomerName();
-
-        view.redWrite(String.format("Project %s by customer %s \n", projectTitle, customerName));
+        view.write("Successful");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
