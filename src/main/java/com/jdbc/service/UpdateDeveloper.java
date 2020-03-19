@@ -26,18 +26,23 @@ public class UpdateDeveloper implements Command {
     @Override
     public void process() {
 
-        List<Developer> developersList = developerDAO.getAll();
-        List<Integer> idList = developersList
-                .stream()
-                .map(Developer::getDeveloperID)
-                .collect(Collectors.toList());
-        int developerID;
+        view.write("Enter a developer id");
+        int developerID = Integer.parseInt(view.read());
+        Developer developer = developerDAO.getByID(developerID);
 
-        do {
-            view.write("Choose developer id");
-            developersList.forEach(System.out::println);
-            developerID = Integer.parseInt(view.read());
-        } while (!matchInt(developerID, idList));
+        if (developer == null)
+            throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
+
+        view.write("Update developer? Y|N");
+        view.write(developer.toString());
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
 
         view.write("Enter developer first name");
         String firstName = view.read();
@@ -50,7 +55,6 @@ public class UpdateDeveloper implements Command {
         view.write("Enter developer salary");
         int salary = Integer.parseInt(view.read());
 
-        Developer developer = new Developer();
         developer.setDeveloperID(developerID);
         developer.setFirstName(firstName);
         developer.setLastName(lastName);

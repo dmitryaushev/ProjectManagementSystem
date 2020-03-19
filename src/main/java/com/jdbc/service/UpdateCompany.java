@@ -26,25 +26,29 @@ public class UpdateCompany implements Command {
     @Override
     public void process() {
 
-        List<Company> companiesList = companyDAO.getAll();
-        List<Integer> idList = companiesList
-                .stream()
-                .map(Company::getCompanyID)
-                .collect(Collectors.toList());
-        int companyID;
+        view.write("Enter a company id");
+        int companyID = Integer.parseInt(view.read());
+        Company company = companyDAO.getByID(companyID);
 
-        do {
-            view.write("Choose company id");
-            companiesList.forEach(System.out::println);
-            companyID = Integer.parseInt(view.read());
-        } while (!matchInt(companyID, idList));
+        if (company == null)
+            throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
+
+        view.write("Update company? Y|N");
+        view.write(company.toString());
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
 
         view.write("Enter a company name");
         String companyName = view.read();
         view.write("Enter a company location");
         String location = view.read();
 
-        Company company = new Company();
         company.setCompanyID(companyID);
         company.setCompanyName(companyName);
         company.setLocation(location);

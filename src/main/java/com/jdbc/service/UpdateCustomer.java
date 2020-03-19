@@ -26,25 +26,29 @@ public class UpdateCustomer implements Command {
     @Override
     public void process() {
 
-        List<Customer> customersList = customerDAO.getAll();
-        List<Integer> idList = customersList
-                .stream()
-                .map(Customer::getCustomerID)
-                .collect(Collectors.toList());
-        int customerID;
+        view.write("Enter a customer id");
+        int customerID = Integer.parseInt(view.read());
+        Customer customer = customerDAO.getByID(customerID);
 
-        do {
-            view.write("Choose customer id");
-            customersList.forEach(System.out::println);
-            customerID = Integer.parseInt(view.read());
-        } while (!matchInt(customerID, idList));
+        if (customer == null)
+            throw new IllegalArgumentException(String.format("Customer with id %d not exist", customerID));
+
+        view.write("Update customer? Y|N");
+        view.write(customer.toString());
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
 
         view.write("Enter a customer name");
         String customerName = view.read();
         view.write("Enter a customer location");
         String location = view.read();
 
-        Customer customer = new Customer();
         customer.setCustomerID(customerID);
         customer.setCustomerName(customerName);
         customer.setLocation(location);
