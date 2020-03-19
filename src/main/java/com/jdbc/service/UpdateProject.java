@@ -53,7 +53,7 @@ public class UpdateProject implements Command {
         project.setDate(date);
         project.setCost(cost);
         projectDAO.update(project);
-        System.err.println("Project updated");
+        view.write("Project updated");
         sleep();
     }
 }

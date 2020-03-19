@@ -46,7 +46,7 @@ public class UpdateCustomer implements Command {
         customer.setCustomerName(customerName);
         customer.setLocation(location);
         customerDAO.update(customer);
-        view.redWrite("Customer updated");
+        view.write("Customer updated");
         sleep();
     }
 }

@@ -19,7 +19,7 @@ public class GetAllDevelopers implements Command {
     @Override
     public void process() {
 
-        developerDAO.getAll().forEach(System.err::println);
+        developerDAO.getAll().forEach(System.out::println);
         sleep();
     }
 }

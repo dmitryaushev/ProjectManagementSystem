@@ -37,7 +37,7 @@ public class DeleteCompany implements Command {
 
         companyDAO.unlinkCompanyProject(companyID);
         companyDAO.delete(companyID);
-        view.redWrite("Company deleted");
+        view.write("Company deleted");
         sleep();
     }
 }

@@ -55,7 +55,7 @@ public class UpdateDeveloper implements Command {
         developer.setAge(age);
         developer.setSalary(salary);
         developerDAO.update(developer);
-        view.redWrite("Developer updated");
+        view.write("Developer updated");
         sleep();
     }
 }

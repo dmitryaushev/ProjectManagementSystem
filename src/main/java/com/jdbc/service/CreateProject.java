@@ -40,7 +40,7 @@ public class CreateProject implements Command {
         project.setDate(date);
         project.setCost(cost);
         projectDAO.create(project);
-        view.redWrite("Project created");
+        view.write("Project created");
         sleep();
     }
 }

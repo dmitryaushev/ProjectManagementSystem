@@ -32,7 +32,7 @@ public class GetProject implements Command {
         if (projectDAO.getByID(projectID) == null)
             throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
-        view.redWrite(projectDAO.getByID(projectID).toString());
+        view.write(projectDAO.getByID(projectID).toString());
         sleep();
     }
 }

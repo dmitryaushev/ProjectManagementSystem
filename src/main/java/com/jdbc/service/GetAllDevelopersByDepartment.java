@@ -41,7 +41,7 @@ public class GetAllDevelopersByDepartment implements Command {
             department = view.read();
         }while (!matchString(department, departmentsSet));
 
-        developerDAO.getAllDevelopersByDepartment(department).forEach(System.err::println);
+        developerDAO.getAllDevelopersByDepartment(department).forEach(System.out::println);
         sleep();
     }
 }

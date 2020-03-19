@@ -32,7 +32,7 @@ public class CreateCustomer implements Command {
         customer.setCustomerName(name);
         customer.setLocation(location);
         customerDAO.create(customer);
-        view.redWrite("Customer created");
+        view.write("Customer created");
         sleep();
     }
 }

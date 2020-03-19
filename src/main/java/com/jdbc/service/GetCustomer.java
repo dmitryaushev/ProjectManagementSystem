@@ -32,7 +32,7 @@ public class GetCustomer implements Command {
         if (customerDAO.getByID(customerID) == null)
             throw new IllegalArgumentException(String.format("Customer with id %d not exist", customerID));
 
-        view.redWrite(customerDAO.getByID(customerID).toString());
+        view.write(customerDAO.getByID(customerID).toString());
         sleep();
     }
 }

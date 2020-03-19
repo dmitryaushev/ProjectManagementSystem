@@ -32,7 +32,7 @@ public class GetCompany implements Command {
         if (companyDAO.getByID(companyID) == null)
             throw new IllegalArgumentException(String.format("Company with id %d not exist", companyID));
 
-        view.redWrite(companyDAO.getByID(companyID).toString());
+        view.write(companyDAO.getByID(companyID).toString());
         sleep();
     }
 }

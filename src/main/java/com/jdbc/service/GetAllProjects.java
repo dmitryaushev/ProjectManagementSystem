@@ -19,7 +19,7 @@ public class GetAllProjects implements Command {
     @Override
     public void process() {
 
-        projectDAO.getAll().forEach(System.err::println);
+        projectDAO.getAll().forEach(System.out::println);
         sleep();
     }
 }

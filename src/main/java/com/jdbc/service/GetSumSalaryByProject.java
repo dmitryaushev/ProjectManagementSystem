@@ -34,7 +34,7 @@ public class GetSumSalaryByProject implements Command {
             throw new IllegalArgumentException(String.format("Project with id %d not exist", projectID));
 
         int sum = projectDAO.getSumSalary(projectID);
-        view.redWrite(String.format("Salary of all developers in project %s is %d\n", project.getProjectName(), sum));
+        view.write(String.format("Salary of all developers in project %s is %d\n", project.getProjectName(), sum));
         sleep();
     }
 }

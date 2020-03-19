@@ -32,7 +32,7 @@ public class GetDeveloper implements Command {
         if (developerDAO.getByID(developerID) == null)
             throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
-        view.redWrite(developerDAO.getByID(developerID).toString());
+        view.write(developerDAO.getByID(developerID).toString());
         sleep();
     }
 }

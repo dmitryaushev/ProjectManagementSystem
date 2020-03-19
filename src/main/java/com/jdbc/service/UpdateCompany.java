@@ -46,7 +46,7 @@ public class UpdateCompany implements Command {
         company.setCompanyName(companyName);
         company.setLocation(location);
         companyDAO.update(company);
-        view.redWrite("Company updated");
+        view.write("Company updated");
         sleep();
     }
 }

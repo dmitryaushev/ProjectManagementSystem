@@ -19,7 +19,7 @@ public class GetAllCompanies implements Command {
     @Override
     public void process() {
 
-        companyDAO.getAll().forEach(System.err::println);
+        companyDAO.getAll().forEach(System.out::println);
         sleep();
     }
 }

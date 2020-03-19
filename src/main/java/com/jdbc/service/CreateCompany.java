@@ -33,7 +33,7 @@ public class CreateCompany implements Command {
         company.setCompanyName(name);
         company.setLocation(location);
         companyDAO.create(company);
-        view.redWrite("Company created");
+        view.write("Company created");
         sleep();
     }
 }
