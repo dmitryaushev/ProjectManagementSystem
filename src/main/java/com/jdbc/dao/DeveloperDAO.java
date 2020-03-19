@@ -30,8 +30,13 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
     private static String linkDeveloperProject = "INSERT INTO developer_project(developer_id, project_id) " +
                                                  "VALUES(?, ?);";
     private static String linkDeveloperSkill = "INSERT INTO developer_skill(developer_id, skill_id) " +
-                                               "VALUES(?, (SELECT skill_id FROM skills WHERE department = ? AND level = ?));";
+                                               "VALUES(?, ?);";
     private static String unlinkDeveloperProject = "DELETE FROM developer_project WHERE developer_id = ?;";
+    private static String unlinkDeveloperSkill = "DELETE FROM developer_skill WHERE developer_id = ?;";
+    private static String getDeveloperProjectLink = "SELECT * FROM developer_project " +
+                                                    "WHERE developer_id = ? AND project_id = ?;";
+    private static String getDeveloperSkillLink = "SELECT * FROM developer_skill " +
+                                                  "WHERE developer_id = ? AND skill_id = ?;";
 
     public DeveloperDAO(Connection connection) {
         this.connection = connection;
@@ -122,7 +127,7 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
     }
 
     @Override
-    public void remove(int id) {
+    public void delete(int id) {
 
         try(PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
@@ -211,13 +216,12 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         }
     }
 
-    public void linkDeveloperSkill(int developerID, String department, String level) {
+    public void linkDeveloperSkill(int developerID, int skillID) {
 
         try (PreparedStatement statement = connection.prepareStatement(linkDeveloperSkill)) {
 
             statement.setInt(1, developerID);
-            statement.setString(2, department);
-            statement.setString(3, level);
+            statement.setInt(2, skillID);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -233,5 +237,45 @@ public class DeveloperDAO extends DataAccessObject<Developer> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void unlinkDeveloperSkill(int developerID) {
+
+        try (PreparedStatement statement = connection.prepareStatement(unlinkDeveloperSkill)) {
+
+            statement.setInt(1, developerID);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkDeveloperProjectLink(int developerID, int projectID) {
+
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(getDeveloperProjectLink)) {
+            statement.setInt(1, developerID);
+            statement.setInt(2, projectID);
+            ResultSet resultSet = statement.executeQuery();
+            result =  resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean checkDeveloperSkillLink(int developerID, int skillID) {
+
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(getDeveloperSkillLink)) {
+            statement.setInt(1, developerID);
+            statement.setInt(2, skillID);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

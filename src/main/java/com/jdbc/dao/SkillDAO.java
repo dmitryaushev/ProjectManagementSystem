@@ -15,7 +15,7 @@ public class SkillDAO {
     private Connection connection;
 
     private static final String SELECT_ALL = "SELECT * FROM skills;";
-    private static final String SELECT = "SELECT * FROM skills WHERE skill_id = ?;";
+    private static final String SELECT = "SELECT * FROM skills WHERE department = ? AND level = ?;";
 
     public SkillDAO(Connection connection) {
         this.connection = connection;
@@ -44,12 +44,13 @@ public class SkillDAO {
         return skillsList;
     }
 
-    public Skill getByID(int id) {
+    public Skill get(String department, String level) {
 
         Skill skill = new Skill();
 
         try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
-            statement.setInt(1, id);
+            statement.setString(1, department);
+            statement.setString(2, level);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {

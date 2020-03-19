@@ -8,5 +8,5 @@ public abstract class DataAccessObject<T> {
     public abstract T getByID(int id);
     public abstract List<T> getAll();
     public abstract void update(T object);
-    public abstract void remove(int id);
+    public abstract void delete(int id);
 }

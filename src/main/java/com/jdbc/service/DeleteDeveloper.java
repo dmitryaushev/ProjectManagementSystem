@@ -3,6 +3,7 @@ package com.jdbc.service;
 import com.jdbc.config.Command;
 import com.jdbc.config.View;
 import com.jdbc.dao.DeveloperDAO;
+import com.jdbc.model.Developer;
 
 public class DeleteDeveloper implements Command {
 
@@ -24,12 +25,25 @@ public class DeleteDeveloper implements Command {
 
         view.write("Enter a developer id");
         int developerID = Integer.parseInt(view.read());
+        Developer developer = developerDAO.getByID(developerID);
 
-        if (developerDAO.getByID(developerID) == null)
+        if (developer == null)
             throw new IllegalArgumentException(String.format("Developer with id %d not exist", developerID));
 
+        view.write("Delete developer? Y|N");
+        view.write(developer.toString());
+        switch (view.read()) {
+            case "Y":
+                break;
+            case "N":
+                return;
+            default:
+                throw new IllegalArgumentException("Wrong input");
+        }
+
         developerDAO.unlinkDeveloperProject(developerID);
-        developerDAO.remove(developerID);
+        developerDAO.unlinkDeveloperSkill(developerID);
+        developerDAO.delete(developerID);
         view.redWrite("Developer deleted");
         try {
             Thread.sleep(3000);

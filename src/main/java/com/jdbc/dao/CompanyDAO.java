@@ -100,7 +100,7 @@ public class CompanyDAO extends DataAccessObject<Company> {
     }
 
     @Override
-    public void remove(int id) {
+    public void delete(int id) {
 
         try(PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);

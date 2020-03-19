@@ -34,6 +34,10 @@ public class ProjectDAO extends DataAccessObject<Project> {
     private static String unlinkCustomerProject = "DELETE FROM customer_project WHERE project_id = ?;";
     private static String unlinkCompanyProject = "DELETE FROM company_project WHERE project_id = ?;";
     private static String unlinkDeveloperProject = "DELETE FROM developer_project WHERE project_id = ?;";
+    private static String getCompanyProjectLink = "SELECT * FROM company_project " +
+                                                  "WHERE company_id = ? AND project_id = ?;";
+    private static String getCustomerProjectLink = "SELECT * FROM customer_project " +
+                                                   "WHERE customer_id = ? AND project_id = ?;";
 
     public ProjectDAO(Connection connection) {
         this.connection = connection;
@@ -119,7 +123,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
     }
 
     @Override
-    public void remove(int id) {
+    public void delete(int id) {
 
         try(PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
@@ -217,7 +221,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         return projectsList;
     }
 
-    public void linkCustomerProject (int customerID, int projectID) {
+    public void linkCustomerProject(int customerID, int projectID) {
 
         try (PreparedStatement statement = connection.prepareStatement(linkCustomerProject)) {
 
@@ -229,7 +233,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         }
     }
 
-    public void linkCompanyProject (int companyID, int projectID) {
+    public void linkCompanyProject(int companyID, int projectID) {
 
         try (PreparedStatement statement = connection.prepareStatement(linkCompanyProject)) {
 
@@ -241,7 +245,7 @@ public class ProjectDAO extends DataAccessObject<Project> {
         }
     }
 
-    public void unlinkCustomerProject (int projectID) {
+    public void unlinkCustomerProject(int projectID) {
 
         try (PreparedStatement statement = connection.prepareStatement(unlinkCustomerProject)) {
 
@@ -274,5 +278,32 @@ public class ProjectDAO extends DataAccessObject<Project> {
         }
     }
 
+    public boolean checkCustomerProjectLink(int customerID, int projectID) {
+
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(getCustomerProjectLink)) {
+            statement.setInt(1, customerID);
+            statement.setInt(2, projectID);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean checkCompanyProjectLink(int companyID, int projectID) {
+
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(getCompanyProjectLink)) {
+            statement.setInt(1, companyID);
+            statement.setInt(2, projectID);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }
